@@ -1,0 +1,159 @@
+---
+title: "Embedded COnic SolveR"
+date: '`r Sys.Date()`'
+bibliography: homomorphing.bib
+output:
+  html_document:
+  fig_caption: yes
+  theme: cerulean
+  toc: yes
+  toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Embedded Conic SolveR}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r echo=F}
+### get knitr just the way we like it
+
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE,
+  tidy = FALSE,
+  cache = FALSE
+)
+
+```
+## Introduction
+
+ECOS is a numerical software for solving convex second-order cone programs (SOCPs) of type
+$$
+min  c^{\top}x\\
+\mbox{s.t.} Ax = b\\
+G*x <=_K h
+$$
+
+where the last inequality is generalized, i.e. $h - G*x$ belongs to the cone $K.$ ECOS supports the
+positive orthant $R_+$ and second-order cones $Q_n$ defined as
+$$
+Q_n = { (t,x) | t >= || x ||_2 }
+$$
+In the definition above, $t$ is a scalar and $x$ is in R_{n-1}. The cone K is therefore a direct product of the positive orthant and second-order cones:
+K = R_+ x Q_n1 x ... x Q_nN
+A homomorphism is a structure-preserving map from one algebraic
+structure to another; see
+[Wikipedia](https://en.wikipedia.org/wiki/Homomorphism). Privacy
+experts are interested in homomorphic computation because it offers a
+way to perform computations on encrypted data, either in a distributed
+setting or in the cloud, thereby handling many of the headaches
+associated with storing/moving/anonymizing data. Homomorphic
+computation also finds application in secure voting, verifyable
+computing etc.
+
+A homomorphic encryption scheme is one that provides such a
+homomorphism along with the infrastructure to carry out the
+computations. The schemes provide algorithms for generating public and
+private keys. The public key is distributed to anyone and the private
+key is only needed by the one who does the decryption. There are
+several such schemes documented in
+[Wikipedia](https://en.wikipedia.org/wiki/Homomorphic_encryption). The
+main thing to know is that there are two flavours: partial and
+full. Partial schemes preserve structure for certain specified
+operations, say addition only, whereas full schemes do over all the
+standard arithmetic operations. The operations mentioned here are all
+in the context of the algebraic structure underneath, which for our
+purposes will be modular arithmetic where the modulus is some large
+number.
+
+The current package `homomorpheR` implements the Paillier system which
+is a partially homomorphic; it provides an additive homomorphism. The
+implementation here borrows much from the Javascript implementation
+for a proof-of-concept system. Therefore, it is not yet ready for
+serious work. So there, you've been warned.
+
+If you are interested in the mathematical details of the Paillier
+crytosystem, the main reference is [@Paillier99]. Volkhausen
+[-@volkhausen2006] provides a detailed mathematical introduction;
+Michael O'Keefe [-@okeefe2008] is a gentler one. A simple application
+of the Paillier system for secure vote tallying is in
+[@choinyaambu2009].
+
+A bit of notation helps. Let $x$ be any message; for us, it is just a
+large integer. Denote $E(x)$ as the encrypted message and $D(x)$ as
+the decryption of $x$ in some scheme. If the scheme is homomorphic
+over addition, then we have $$ E(x) + E(y) = E(x + y) $$
+
+This means that calculating $x+y$ can be done by decrypting the sum of
+the encrypted values of $x$ and $y$. Thus, entities can merely
+exchange encrypted values throughout.  This is pictorially shown in
+the figure (source:
+[http://jeremykun.com/tag/homomorphic-encryption](http://jeremykun.com/tag/homomorphic-encryption)
+) below:
+
+<div style="text-align:center" markdown="1">
+![Homomorphic Computation](assets/homo.jpeg)
+</div>
+
+
+## Facilities
+
+As a first step, a public and private key pair needs to be generated.
+In generating bits for cryptosystems, a secure random number source is
+needed; `homomorpheR` makes use of the R package `sodium` by Jeroen
+Ooms (based on Daniel J. Bernstein's generators) in addition to `gmp`
+for arbitrary precision arithmetic.
+
+```{r}
+keyPair <- PaillierKeyPair$new(modulusBits = 1024)
+```
+
+Examine the `keyPair` object:
+
+```{r}
+keyPair
+```
+
+The `pubkey` field can be distributed all interested parties but the
+private key, obtainable by `getPrivateKey()` should be kept secret for
+decryption.
+
+The main functions are the `encrypt` function for the public key, and
+the `decrypt` function for the private key.
+
+## Some tests
+
+We can now perform some simple tests. But before that a simple
+function that encrypts and decrypts.
+
+```{r}
+encryptAndDecrypt <- function(x) keyPair$getPrivateKey()$decrypt(keyPair$pubkey$encrypt(x))
+```
+
+Now we can encrypt and decrypt some numbers.
+
+```{r}
+a <- gmp::as.bigz(1273849)
+identical(a + 10, encryptAndDecrypt(a + 10))
+```
+
+Now with a large set of numbers. The function `random.bigz` returns
+large random numbers.
+
+```{r}
+m <- lapply(1:100, function(x) random.bigz(nBits = 512))
+md <- lapply(m, encryptAndDecrypt)
+identical(m, md)
+```
+
+## References
+
+
+
+
+
+
+
+
+

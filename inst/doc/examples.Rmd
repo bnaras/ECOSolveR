@@ -1,0 +1,126 @@
+---
+title: "ECOSolveR Examples"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+  fig_caption: yes
+  theme: cerulean
+  toc: yes
+  toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{ECOSolveR Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r echo=F}
+### get knitr just the way we like it
+
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE,
+  tidy = FALSE,
+  cache = FALSE
+)
+
+```
+## $L_1$ minimization (Linear Programming)
+
+We solve the following problem that arises for example in sparse
+signal reconstruction problems such as compressed sensing:
+$$
+\mbox{minimize } ||x||_1  \mbox{   ($L_1$)   }\\
+\mbox{subject to } Ax = b
+$$
+
+with $x\in R^n$, $A \in R^{m \times n}$ and $m\leq n.$ Reformulate the
+problem expressing the $L_1$ norm of $x$ as follows
+$$
+x \leq u\\
+-x \leq u\\
+$$
+
+where $u\in R^n$ and we minimize the sum of $u$. The reformulated
+problem using the stacked variables
+
+$$
+z = \begin{pmatrix}x\\u\end{pmatrix}
+$$
+
+is now
+$$
+\mbox{minimize } c^{\top}z\\
+\mbox{subject to } \tilde{A}x = b  \mbox{   (LP)  }\\
+     Gx \leq h
+$$
+where the inequality is with respective to the positive orthant.
+
+Here is the R code that generates a random instance of this problem
+and solves it.
+
+```{r}
+library(ECOSolveR)
+library(Matrix)
+set.seed(182391)
+n <- 1000L
+m <- 10L
+density <- 0.01
+c <- c(rep(0.0, n), rep(1.0, n))
+```
+
+First, a function to generate random sparse matrices with normal
+entries.
+
+```{r}
+sprandn <- function(nrow, ncol, density) {
+    items <- ceiling(nrow * ncol * density)
+    matrix(c(rnorm(items),
+             rep(0, nrow * ncol - items)),
+           nrow = nrow)
+}
+```
+
+```{r}
+A <- sprandn(m, n, density)
+Atilde <- Matrix(cbind(A, matrix(rep(0.0, m * n), nrow = m)), sparse = TRUE)
+b <- rnorm(m)
+I <- diag(n)
+G <- rbind(cbind(I, -I),
+           cbind(-I, -I))
+G <- Matrix(G, sparse = TRUE)
+h <- rep(0.0, 2L * n)
+dims <- list(l = 2L * n, q = NULL, e = 0L)
+```
+
+Note how ECOS expects sparse matrices, not ordinary matrices.
+
+```{r}
+## Solve the problem
+z <- ECOS_csolve(c = c, G = G, h = h, dims = dims, A = Atilde, b = b)
+```
+
+We check that the solution was found.
+
+```{r}
+names(z)
+z$infostring
+```
+
+Extract the solution.
+
+```{r}
+x <- z$x[1:n]
+u <- z$x[(n+1):(2*n)]
+nnzx = sum(abs(x) > 1e-8)
+sprintf("x reconstructed with %d non-zero entries", nnzx / length(x) * 100)
+```
+
+
+
+
+
+
+
+
+

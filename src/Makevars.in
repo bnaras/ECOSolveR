@@ -1,0 +1,10 @@
+PKG_CFLAGS=@PKG_CFLAGS@
+PKG_CPPFLAGS=@PKG_CPPFLAGS@
+PKG_LIBS=@PKG_LIBS@
+
+$(SHLIB): @ECOS_TS@
+
+ecos.ts:
+	(cd ecos && \
+	(cp Makefile.unix Makefile && cp ecos-unix.mk ecos.mk && $(MAKE) libecos.a && $(MAKE) libecos_bb.a) && \
+	touch $@)

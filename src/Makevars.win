@@ -1,0 +1,11 @@
+PKG_CPPFLAGS=-Iecos/include -Iecos/external/ldl/include -Iecos/external/amd/include -Iecos/external/SuiteSparse_config
+
+PKG_LIBS=-Lecos -lecos -lecos_bb
+
+$(SHLIB): ecos.ts
+
+ecos.ts:
+	cd ecos && cp Makefile.win Makefile && cp ecos-win.mk ecos.mk
+	cd ecos && $(MAKE) libecos.a CC="$(CC)"
+	cd ecos && $(MAKE) libecos_bb.a CC="$(CC)"
+	touch $@
