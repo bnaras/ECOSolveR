@@ -3,11 +3,9 @@
 # Disable implicit rules such as 'make ecos' when 'ecos.o' exists
 .SUFFIXES:
 
-# Configuration of make process in ecos.mk (WINDOWS specific)
+# Configuration of make process in ecos.mk
 include ecos.mk
-## Modified from original ecos. Original file saved with extension .orig
-## Moved the following line to ecos.mk 
-##CFLAGS += -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config 
+ECOS_INCLUDES = -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config 
 TEST_INCLUDES = -Itest -Itest/generated
 
 # Compile all C code, including the C-callable routine
@@ -37,10 +35,10 @@ libecos_bb.a: $(ECOS_BB_OBJS) $(LDL) $(AMD)
 	- $(RANLIB) $@
 
 %.o : src/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) -c $< -o $@
 
 %.o : ecos_bb/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) -c $< -o $@
 
 ecos_bb.o           : include/ecos_bb.h
 ecos_bb_preproc.o   : include/ecos_bb.h
@@ -61,34 +59,34 @@ wright_omega.o      : include/wright_omega.h
 .PHONY: demo
 demo: runecos
 runecos: src/runecos.c libecos.a
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) -o $@ $^ $(LDFLAGS) $(ECOS_LDFLAGS)
 	echo ECOS successfully built. Type ./runecos to run demo problem.
 
 runecosexp: src/runecos_exp.c libecos.a
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) -o $@ $^ $(LDFLAGS) $(ECOS_LDFLAGS)
 	echo ECOS-Exp successfully built. Type ./runecosexp to run demo problem.
 
 # Shared library
 .PHONY: shared
 shared: $(SHAREDNAME)
 $(SHAREDNAME): $(LDL) $(AMD) $(ECOS_OBJS)
-	$(CC) $(CFLAGS) -shared -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) -shared -o $@ $^ $(LDFLAGS) $(ECOS_LDFLAGS)
 
 # ECOS tester
 TEST_OBJS = qcml_utils.o norm.o sq_norm.o sum_sq.o quad_over_lin.o inv_pos.o
 .PHONY: test
 test: ecostester ecos_bb_test
 ecostester: test/ecostester.c $(TEST_OBJS) libecos.a
-	$(CC) $(CFLAGS) $(TEST_INCLUDES) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) $(TEST_INCLUDES) -o $@ $^ $(LDFLAGS) $(ECOS_LDFLAGS)
 
 ecos_bb_test: test/bb_test.c libecos_bb.a
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) -o $@ $^ $(LDFLAGS) $(ECOS_LDFLAGS)
 
 %.o: test/generated/%.c test/generated/%.h
-	$(CC) $(CFLAGS) $(TEST_INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) $(TEST_INCLUDES) -c $< -o $@
 
 %.o: test/generated/*/%.c test/generated/*/%.h
-	$(CC) $(CFLAGS) $(TEST_INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) $(TEST_INCLUDES) -c $< -o $@
 
 
 # remove object files, but keep the compiled programs and library archives

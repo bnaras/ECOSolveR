@@ -5,7 +5,7 @@ PKG_LIBS=-Lecos -lecos -lecos_bb
 $(SHLIB): ecos.ts
 
 ecos.ts:
-	cd ecos && cp Makefile.win Makefile && cp ecos-win.mk ecos.mk
-	cd ecos && $(MAKE) libecos.a CC="$(CC)"
-	cd ecos && $(MAKE) libecos_bb.a CC="$(CC)"
+	cd ecos && cp ecos-win.mk ecos.mk
+	cd ecos && $(MAKE) libecos.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"
+	cd ecos && $(MAKE) libecos_bb.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"
 	touch $@

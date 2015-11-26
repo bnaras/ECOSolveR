@@ -8,7 +8,7 @@ include ../../ecos.mk
 
 INCLUDES = -I../SuiteSparse_config -Iinclude
 
-C = $(CC) $(CFLAGS) $(INCLUDES)
+C = $(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) $(INCLUDES)
 
 all: libldl.a
 

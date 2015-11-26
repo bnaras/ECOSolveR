@@ -6,7 +6,7 @@ default: libamd.a
 
 include ../../ecos.mk
 
-C = $(CC) $(CFLAGS) -Iinclude -I../SuiteSparse_config
+C = $(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) -Iinclude -I../SuiteSparse_config
 
 #-------------------------------------------------------------------------------
 # source files
