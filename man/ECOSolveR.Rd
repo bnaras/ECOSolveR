@@ -10,6 +10,5 @@
 Please see the examples and documentation for the function \code{ECOS_csolve}.
 }
 \references{
-\url{https://github.com/ecos}
+\url{https://github.com/embotech/ecos}
 }
-

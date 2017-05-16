@@ -1,11 +1,10 @@
 ECOSolveR
 =========
 
-Install this package the usual way in R once it gets on CRAN (very shortly) or via:
+Install this package the usual way in R using CRAN or via:
 
 ```{r}
-library(devtools)
-install_github("bnaras/ECOSolveR")
+devtools::install_github("bnaras/ECOSolveR")
 ```
 
 This is an R wrapper around the [ecos](https://github.com/embotech/ecos) project
@@ -24,3 +23,7 @@ CRAN portability checks.
 	- Added system requirement of GNU makefile
 	- Improved the description of the package
 	- Checked more carefully on Linux, MacOS, and Windows
+
+- Version 0.3 (2017-05-16)
+	- Registered .Call entries
+	- Changed Anqi's email

@@ -87,6 +87,7 @@ Variables can be constrained to be boolean (1 or 0) or integers. This is indicat
 by specifying parameters \code{bool_vars} and/or \code{int_vars} respectively. If so
 indicated, the solutions will be found using a branch and bound algorithm.
 }
+
 \examples{
 
 ## githubIssue98
@@ -117,4 +118,3 @@ retval$infostring
 retval$summary
 
 }
-
