@@ -226,6 +226,6 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
                     c, h, b,
                     bool_vars, int_vars,
                     control,
-                    package = 'ECOSolveR')
+                    PACKAGE = 'ECOSolveR')
     result
 }
