@@ -109,9 +109,9 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         stop(optionCheck)
     }
 
-    if (!isNontrivialNumericVector(c)) {
-        stop("c should be a nontrivial numeric vector")
-    }
+    ## if (!isNontrivialNumericVector(c)) {
+    ##     stop("c should be a nontrivial numeric vector")
+    ## }
 
     nullG <- is.null(G)
     nontrivialH <- isNontrivialNumericVector(h)

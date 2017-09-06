@@ -12,7 +12,7 @@ R CMD INSTALL <ECOSolveR tar ball>
 
 R CMD INSTALL --configure-args="--with-ecos=<location of ecos DIR>" <ECOSolveR tar ball>
 
-Compiler flags for csdp can be given using --with-ecos-cflags as part of --configure-args
+Compiler flags for ECOS can be given using --with-ecos-cflags as part of --configure-args
 
 However, at the time of this package creation, ecos libraries have not been packaged for
 various OS's so step 2 is unchecked at this time.
