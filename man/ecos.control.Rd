@@ -52,5 +52,5 @@ a list with the following elements:
   }
 }
 \description{
-This is used to control the behavior of the undelying optimization code.
+This is used to control the behavior of the underlying optimization code.
 }
