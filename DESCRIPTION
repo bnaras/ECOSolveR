@@ -1,7 +1,7 @@
 Package: ECOSolveR
 Type: Package
 Title: Embedded Conic Solver in R
-Version: 0.3-3
+Version: 0.4
 Date: 2018-02-16
 VignetteBuilder: knitr
 Authors@R: c(person("Anqi", "Fu", role = c("aut"),
