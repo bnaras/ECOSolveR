@@ -301,4 +301,4 @@ settings_bb* get_default_ECOS_BB_settings(){
     stgs->rel_tol_gap = MI_REL_EPS;
     stgs->integer_tol = MI_INT_TOL;
     return stgs;
-};
+}
