@@ -6,6 +6,7 @@ $(SHLIB): @ECOS_TS@
 
 ecos.ts:
 	(cd ecos && \
-	($(MAKE) libecos.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)" && \
+	(cp ecos-unix.mk ecos.mk && \
+	$(MAKE) libecos.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)" && \
 	$(MAKE) libecos_bb.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)") && \
 	touch $@)
