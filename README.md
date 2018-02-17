@@ -16,6 +16,12 @@ the CRAN portability checks.
 
 ## Changes
 
+- Version 0.3-3 and 0.4 (2018-02-16)
+	- ECOS_csolve assumes A and G as NULL if any dimension is 0
+	- The dims list is now coerced to integer immediately upon
+	  entry to ECOS_csolve
+	- ECOS library sources updated to version 2.0.5.
+
 - Version 0.3-1 and 0.3-2 (2017-09-05)
 	- Updated Readme
 	- Allowed empty vector c, per Anqi's request

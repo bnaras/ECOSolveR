@@ -5,6 +5,8 @@
 
 # Configuration of make process in ecos.mk
 include ecos.mk
+# Edited by bnaras
+## CFLAGS += -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config
 ECOS_INCLUDES = -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config 
 TEST_INCLUDES = -Itest -Itest/generated
 
@@ -33,6 +35,13 @@ ECOS_BB_OBJS = $(ECOS_OBJS) ecos_bb_preproc.o ecos_bb.o
 libecos_bb.a: $(ECOS_BB_OBJS) $(LDL) $(AMD)
 	$(ARCHIVE) $@ $^
 	- $(RANLIB) $@
+
+## bnaras edits to include ECOS_ prefixed flags
+# %.o : src/%.c
+# 	$(CC) $(CFLAGS) -c $< -o $@
+
+# %.o : ecos_bb/%.c
+# 	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o : src/%.c
 	$(CC) $(CFLAGS) $(ECOS_CFLAGS) $(ECOS_INCLUDES) -c $< -o $@

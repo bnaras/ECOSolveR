@@ -108,12 +108,12 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
     if (!is.null(optionCheck <- checkOptions(control))) {
         stop(optionCheck)
     }
-
+    dims <- lapply(dims, as.integer)
     ## if (!isNontrivialNumericVector(c)) {
     ##     stop("c should be a nontrivial numeric vector")
     ## }
 
-    nullG <- is.null(G)
+    nullG <- (is.null(G) || prod(dim(G)) == 0L)
     nontrivialH <- isNontrivialNumericVector(h)
 
     if ((nullG && nontrivialH) ||
@@ -121,7 +121,7 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         stop("G and h must be supplied together")
     }
 
-    nullA <- is.null(A)
+    nullA <- (is.null(A) || prod(dim(A)) == 0L)
     nontrivialB <- isNontrivialNumericVector(b)
     if ((nullA && nontrivialB) ||
         (!nullA && !nontrivialB)) {

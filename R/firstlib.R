@@ -1,6 +1,6 @@
 #' Return the default optimization parameters for ECOS
 #'
-#' This is used to control the behavior of the undelying optimization code.
+#' This is used to control the behavior of the underlying optimization code.
 #'
 #' @param feastol the tolerance on the primal and dual residual, default 1e-8
 #' @param abstol the absolute tolerance on the duality gap, default 1e-8
