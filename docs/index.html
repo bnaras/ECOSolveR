@@ -15,7 +15,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-vignette">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -67,21 +67,34 @@
 
       
       </header><div class="row">
-  <div class="contents col-md-9">
-    <div id="ecosolver" class="section level1">
+  <div class="col-md-9">
+    
+
+    
+    
+<div class="contents">
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+<div id="ecosolver" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#ecosolver" class="anchor"></a>ECOSolveR</h1></div>
 
 <p>ECOS is a numerical software for solving convex second-order cone programs (SOCPs) of type</p>
-<p>\begin{array}{llll} \mbox{Minimize} &amp; c’x &amp; \ni Ax = b &amp; \mbox{and} &amp; Gx &lt;=_K h \end{array}</p>
-<p>where the last inequality is generalized, i.e. $ h - Gx $ belongs to the cone $ K. $</p>
-<p>ECOS supports the positive orthant $ {\mathbf R}_+ $, second-order cones $ Q_n $ defined as</p>
-<p>$$ Q_n = { (t,x) | t &gt;= || x ||_2 } $$</p>
-<p>with $t$ a scalar and $x \in {\mathbf R}_{n-1}$, and the exponential cone $K_e$ defined as</p>
-<p>$$ K_e = {\mbox{closure}} { (x,y,z) | exp(x/z) &lt;= y/z, z&gt;0 }, $$</p>
-<p>where $(x,y,z) \in {\mathbf R}^3$.</p>
-<p>The cone $K$ is therefore a direct product of the positive orthant, second-order, and exponential cones:</p>
-<p>\begin{array}{l} K = R_+ \times Q_{n_1} \times \cdots \times Q_{n_N} \times K_e \times \cdots \times K_e. \end{array}</p>
+<p><span class="math display">\[
+\mbox{Minimize } c'x \mbox{ such that } Ax = b \mbox{ and } Gx &lt;=_K h
+\]</span> where the last inequality is generalized, that is, <span class="math inline">\(h-Gx\)</span> belongs to the cone <span class="math inline">\(K\)</span>.</p>
+<p>ECOS supports the positive orthant <span class="math inline">\({\mathbf R}_+\)</span>, second-order cones <span class="math inline">\(Q_n\)</span> defined as</p>
+<p><span class="math display">\[
+Q_n = \bigl\{ (t,{\mathbf x}) | t &gt;= \lVert{\mathbf x}\rVert_2 \bigr\}
+\]</span></p>
+<p>with <span class="math inline">\(t\)</span> a scalar and <span class="math inline">\({\mathbf x} \in {\mathbf R}_{n-1}\)</span>, and the exponential cone <span class="math inline">\(K_e\)</span> defined as</p>
+<p><span class="math display">\[
+K_e = \mbox{closure} \bigl\{ (x,y,z) | exp(x/z) &lt;= y/z, z&gt;0 \bigr\},
+\]</span></p>
+<p>where <span class="math inline">\((x,y,z) \in {\mathbf R}^3\)</span>.</p>
+<p>The cone <span class="math inline">\(K\)</span> is therefore a direct product of the positive orthant, second-order, and exponential cones:</p>
+<span class="math display">\[\begin{array}{l}
+K = R_+ \times Q_{n_1} \times \cdots \times Q_{n_N} \times K_e \times \cdots \times K_e.
+\end{array}\]</span>
 <div id="further-details" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-details" class="anchor"></a>Further Details</h2>
@@ -125,10 +138,12 @@
 </ul>
 </div>
 </div>
+</div>
   </div>
 
-  <div class="col-md-3" id="sidebar">
-    <h2>Links</h2>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cran.r-project.org/package=ECOSolveR">https://​cran.r-project.org/​package=ECOSolveR</a>
 </li>
@@ -149,6 +164,7 @@
 <li><a href="https://github.com/embotech/ecos">ecos</a></li>
 </ul>
 </div>
+
 </div>
 
 
