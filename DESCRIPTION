@@ -14,7 +14,8 @@ BugReports: https://github.com/bnaras/ECOSolveR/issues
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    covr
 Imports:
     Matrix
 Description: R interface to the Embedded COnic Solver (ECOS), an efficient
