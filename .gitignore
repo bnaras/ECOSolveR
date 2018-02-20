@@ -1,0 +1,8 @@
+.Rhistory
+src/*.o
+src/ECOSolveR.so
+config.log
+config.status
+autom4te.cache
+src/ecos/ecos.ts
+src/ecos/__*

@@ -74,10 +74,9 @@
     
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="ecosolver" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#ecosolver" class="anchor"></a>ECOSolveR</h1></div>
+<section id="ecosolver" class="level1"><div class="page-header"><h1>ECOSolveR</h1></div>
 
+<p>Embedded Conic Solver in R. This is an R wrapper around the <a href="https://github.com/embotech/ecos">ecos</a> project on GitHub which describes ECOS as below.</p>
 <p>ECOS is a numerical software for solving convex second-order cone programs (SOCPs) of type</p>
 <p><span class="math display">\[
 \mbox{Minimize } c'x \mbox{ such that } Ax = b \mbox{ and } Gx &lt;=_K h
@@ -92,17 +91,10 @@ K_e = \mbox{closure} \bigl\{ (x,y,z) | exp(x/z) &lt;= y/z, z&gt;0 \bigr\},
 \]</span></p>
 <p>where <span class="math inline">\((x,y,z) \in {\mathbf R}^3\)</span>.</p>
 <p>The cone <span class="math inline">\(K\)</span> is therefore a direct product of the positive orthant, second-order, and exponential cones:</p>
-<span class="math display">\[\begin{array}{l}
-K = R_+ \times Q_{n_1} \times \cdots \times Q_{n_N} \times K_e \times \cdots \times K_e.
-\end{array}\]</span>
-<div id="further-details" class="section level2">
-<h2 class="hasAnchor">
-<a href="#further-details" class="anchor"></a>Further Details</h2>
+<p>\begin{array}{l} K = R_+ Q_{n_1} Q_{n_N} K_e K_e. \end{array}</p>
+<section id="further-details" class="level2"><h2>Further Details</h2>
 <p>Note that the ECOS C language sources are included here. The only edits to the ECOS library source is to the makefiles; that was necessary to pass the CRAN portability checks.</p>
-</div>
-<div id="changes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#changes" class="anchor"></a>Changes</h2>
+</section><section id="changes" class="level2"><h2>Changes</h2>
 <ul>
 <li>Version 0.3-3 and 0.4 (2018-02-16)
 <ul>
@@ -135,9 +127,7 @@ K = R_+ \times Q_{n_1} \times \cdots \times Q_{n_N} \times K_e \times \cdots \ti
 <li>First version, thought I had it right for all platforms, but quite wrong!</li>
 </ul>
 </li>
-</ul>
-</div>
-</div>
+</ul></section></section>
 </div>
   </div>
 
@@ -161,7 +151,9 @@ K = R_+ \times Q_{n_1} \times \cdots \times Q_{n_N} \times K_e \times \cdots \ti
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/embotech/ecos">ecos</a></li>
+<li><a href="https://travis-ci.org/r-lib/ECOSolveR"><img src="https://travis-ci.org/r-lib/ECOSolveR.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://cran.r-project.org/package=ECOSolveR"><img src="https://www.r-pkg.org/badges/version/ECOSolveR" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://codecov.io/github/r-lib/ECOSolveR?branch=master"><img src="https://img.shields.io/codecov/c/github/r-lib/ECOSolveR/master.svg" alt="Coverage Status"></a></li>
 </ul>
 </div>
 
