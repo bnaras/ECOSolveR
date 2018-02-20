@@ -4,10 +4,10 @@
 # ECOSolveR
 
 [![Travis-CI Build
-Status](https://travis-ci.org/r-lib/ECOSolveR.svg?branch=master)](https://travis-ci.org/r-lib/ECOSolveR)
+Status](https://travis-ci.org/r-lib/ECOSolveR.svg?branch=master)](https://travis-ci.org/bnaras/ECOSolveR)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ECOSolveR)](https://cran.r-project.org/package=ECOSolveR)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/r-lib/ECOSolveR/master.svg)](https://codecov.io/github/r-lib/ECOSolveR?branch=master)
+Status](https://img.shields.io/codecov/c/github/r-lib/ECOSolveR/master.svg)](https://codecov.io/github/bnaras/ECOSolveR?branch=master)
 
 Embedded Conic Solver in R. This is an R wrapper around the
 [ecos](https://github.com/embotech/ecos) project on GitHub which
