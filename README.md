@@ -1,18 +1,47 @@
 ECOSolveR
 =========
 
-Install this package the usual way in R using CRAN or via:
+Embedded Conic Solver in R. This is an R wrapper around the
+[ecos](https://github.com/embotech/ecos) project on GitHub which
+describes ECOS as below.
 
-```{r}
-devtools::install_github("bnaras/ECOSolveR")
-```
+ECOS is a numerical software for solving convex second-order cone programs (SOCPs) of type
 
-This is an R wrapper around the [ecos](https://github.com/embotech/ecos) project
-on GitHub.
+\begin{array}{llll}
+\mbox{Minimize} & c'x & \ni Ax = b & \mbox{and} & Gx <=_K h
+\end{array}
 
-Note that the ecos sources are included here. The only changes to the
-ecos library source is to the makefiles; that was necessary to pass
-the CRAN portability checks.
+where the last inequality is generalized, i.e. $ h - Gx $ belongs to the
+cone $ K. $ 
+
+ECOS supports the positive orthant $ {\mathbf R}_+ $, second-order cones
+$ Q_n $ defined as
+
+$$
+Q_n = { (t,x) | t >= || x ||_2 }
+$$
+
+with $t$ a scalar and $x \in {\mathbf R}_{n-1}$, and the exponential
+cone $K_e$ defined as
+
+$$
+K_e = {\mbox{closure}} \{ (x,y,z) | exp(x/z) <= y/z, z>0 \},
+$$
+
+where  $(x,y,z) \in {\mathbf R}^3$.
+
+The cone $K$ is therefore a direct product of the positive orthant, second-order, and exponential cones:
+
+\begin{array}{l}
+K = R_+ \times Q_{n_1} \times \cdots \times Q_{n_N} \times K_e \times \cdots \times K_e.
+\end{array}
+
+## Further Details
+
+Note that the ECOS C language sources are included here. The only
+edits to the ECOS library source is to the makefiles; that was
+necessary to pass the CRAN portability checks.
+
 
 ## Changes
 
@@ -37,7 +66,5 @@ the CRAN portability checks.
 
 - Version 0.1-1 (2015-11-17)
 	- First version, thought I had it right for all platforms, but quite wrong!
-
-
 
 
