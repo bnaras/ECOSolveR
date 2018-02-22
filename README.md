@@ -40,7 +40,11 @@ where \((x,y,z) \in {\mathbf R}^3\).
 The cone \(K\) is therefore a direct product of the positive orthant,
 second-order, and exponential cones:
 
-\\begin{array}{l} K = R\_+ Q\_{n\_1} Q\_{n\_N} K\_e K\_e. \\end{array}
+\[
+\begin{array}{l}
+K = R_+ \times Q_{n_1} \times \cdots \times Q_{n_N} \times K_e \times \cdots \times K_e.
+\end{array}
+\]
 
 ## Further Details
 

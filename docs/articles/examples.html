@@ -71,14 +71,15 @@
     <div class="page-header toc-ignore">
       <h1>ECOSolveR Examples</h1>
             
-            <h4 class="date">2018-02-19</h4>
+            <h4 class="date">2018-02-21</h4>
           </div>
 
     
     
 <div class="contents">
-<section id="l_1-minimization-linear-programming" class="level2"><h2>
-<span class="math inline">\(L_1\)</span> minimization (Linear Programming)</h2>
+<div id="l_1-minimization-linear-programming" class="section level2">
+<h2 class="hasAnchor">
+<a href="#l_1-minimization-linear-programming" class="anchor"></a><span class="math inline">\(L_1\)</span> minimization (Linear Programming)</h2>
 <p>We solve the following problem that arises for example in sparse signal reconstruction problems such as compressed sensing: <span class="math display">\[
 \mbox{minimize } ||x||_1  \mbox{   ($L_1$)   }\\
 \mbox{subject to } Ax = b
@@ -135,7 +136,7 @@ z = \begin{pmatrix}x\\u\end{pmatrix}
 <a class="sourceLine" id="cb9-3" data-line-number="3">nnzx =<span class="st"> </span><span class="kw">sum</span>(<span class="kw">abs</span>(x) <span class="op">&gt;</span><span class="st"> </span><span class="fl">1e-8</span>)</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw">sprintf</span>(<span class="st">"x reconstructed with %d non-zero entries"</span>, nnzx <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(x) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a></code></pre></div>
 <pre><code>## [1] "x reconstructed with 100 non-zero entries"</code></pre>
-</section>
+</div>
 </div>
   </div>
 
