@@ -1,6 +1,8 @@
 #include <R.h>
 #include <Rinternals.h>
 
+#define IGNORE_UNUSED_FUNCTIONS
+
 #include "ecos.h"
 #include "ecos_bb.h"
 
