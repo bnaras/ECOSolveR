@@ -7,6 +7,12 @@
 ^README\.Rmd$
 ^pkgdown$
 ^codecov\.yml$
-^src/ecos-2.0.7/\.bumpversion\.cfg
-^src/ecos-2.0.7/\.travis\.yml
+^src/ecos/\.bumpversion\.cfg
+^src/ecos/\.travis\.yml
+^src/ecos/\.git
+^src/ecos/\.gitignore
+^src/ecos/CONTRIBUTING\.md
+^src/ecos/README\.md
+^src/ecos/README\.pdf
+^src/ecos/vstudio/*
 ^src/ecos.ts$

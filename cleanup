@@ -1,6 +1,6 @@
 #!/bin/sh
 
-(cd src/ecos-2.0.7;
+(cd src/ecos;
     if test -f Makefile; then
        make purge
     fi)
