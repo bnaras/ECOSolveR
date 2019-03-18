@@ -59,19 +59,19 @@ ecos.control <- function(maxit = 100L,
 }
 
 isNonnegativeInt <- function(x) {
-    (!is.null(x)) && (typeof(x) == "integer") && (length(x) == 1) && ! (x < 0)
+    ((typeof(x) == "integer") && (length(x) == 1L) && (x >= 0L))
 }
 
 isNonnegativeFloat <- function(x) {
-    (!is.null(x)) && (typeof(x) == "double") && (length(x) == 1) && ! (x < 0)
+    ((typeof(x) == "double") && (length(x) == 1L) && (x >= 0.0))
 }
 
 isNontrivialNumericVector <- function(x) {
-    (typeof(x) == "double") && (length(x) > 0)
+    (typeof(x) == "double") && (length(x) > 0L)
 }
 
 isNontrivialIntegerVector <- function(x) {
-    (typeof(x) == "integer") && (length(x) > 0)
+    (typeof(x) == "integer") && (length(x) > 0L)
 }
 
 checkOptions <- function(control)  {

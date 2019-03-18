@@ -1,4 +1,5 @@
 context("ECOS BB Tests")
+
 ## test 1a_bool
 test_that("test1a returns the right answer", {
     G <- local({

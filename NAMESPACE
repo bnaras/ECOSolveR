@@ -2,5 +2,4 @@
 
 export(ECOS_csolve)
 export(ecos.control)
-importFrom(Matrix,sparseMatrix)
 useDynLib(ECOSolveR)
