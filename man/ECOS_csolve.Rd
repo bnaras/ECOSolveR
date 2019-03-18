@@ -4,28 +4,46 @@
 \alias{ECOS_csolve}
 \title{Solve a conic optimization problem}
 \usage{
-ECOS_csolve(c = numeric(0), G = NULL, h = numeric(0), dims = list(l =
-  integer(0), q = NULL, e = integer(0)), A = NULL, b = numeric(0),
-  bool_vars = integer(0), int_vars = integer(0), control = ecos.control())
+ECOS_csolve(c = numeric(0), G = NULL, h = numeric(0), dims = list(l
+  = integer(0), q = NULL, e = integer(0)), A = NULL, b = numeric(0),
+  bool_vars = integer(0), int_vars = integer(0),
+  control = ecos.control())
 }
 \arguments{
-\item{c}{the coefficients of the objective function; the length of this determines the number of variables \eqn{n} in the problem.}
+\item{c}{the coefficients of the objective function; the length of
+this determines the number of variables \eqn{n} in the problem.}
 
-\item{G}{the inequality constraint sparse matrix in compressed column format, e.g. \link[Matrix]{dgCMatrix-class}. Can be \code{NULL}}
+\item{G}{the inequality constraint matrix in one of three forms: a
+plain matrix, simple triplet matrix, or compressed column
+format, e.g. \link[Matrix]{dgCMatrix-class}. Can also be
+\code{NULL}}
 
-\item{h}{the right hand size of the inequality constraint. Can be empty numeric vector.}
+\item{h}{the right hand size of the inequality constraint. Can be
+empty numeric vector.}
 
-\item{dims}{is a list of three named elements: \code{dims['l']} an integer specifying the dimension of positive orthant cone, \code{dims['q']} an integer vector specifying dimensions of second-order cones, \code{dims['e']} an integer specifying the number of exponential cones}
+\item{dims}{is a list of three named elements: \code{dims['l']} an
+integer specifying the dimension of positive orthant cone,
+\code{dims['q']} an integer vector specifying dimensions of
+second-order cones, \code{dims['e']} an integer specifying the
+number of exponential cones}
 
-\item{A}{the optional equality constraint sparse matrix in compressed column format, e.g. \link[Matrix]{dgCMatrix-class}. Can be \code{NULL}}
+\item{A}{the optional equality constraint matrix in one of three
+forms: a plain matrix, simple triplet matrix, or compressed
+column format, e.g. \link[Matrix]{dgCMatrix-class}. Can be
+\code{NULL}}
 
-\item{b}{the right hand side of the equality constraint, must be specified if \eqn{A} is. Can be empty numeric vector.}
+\item{b}{the right hand side of the equality constraint, must be
+specified if \eqn{A} is. Can be empty numeric vector.}
 
-\item{bool_vars}{the indices of the variables, 1 through \eqn{n}, that are boolean; that is, they are either present or absent in the solution}
+\item{bool_vars}{the indices of the variables, 1 through \eqn{n},
+that are boolean; that is, they are either present or absent in
+the solution}
 
-\item{int_vars}{the indices of the variables, 1 through \eqn{n}, that are integers}
+\item{int_vars}{the indices of the variables, 1 through \eqn{n},
+that are integers}
 
-\item{control}{is a named list that controls various optimization parameters; see \link[ECOSolveR]{ecos.control}.}
+\item{control}{is a named list that controls various optimization
+parameters; see \link[ECOSolveR]{ecos.control}.}
 }
 \value{
 a list of 8 named items
@@ -37,8 +55,11 @@ a list of 8 named items
   \item{infostring}{gives information about the status of solution}
   \item{retcodes}{a named integer vector containing four elements
     \describe{
-      \item{exitflag}{0=\code{OPTIMAL}, 1=\code{PRIMAL INFEASIBLE}, 2=\code{DUAL INFEASIBLE}, -1=\code{MAXIT REACHED}}
-      \item{iter}{the number of iteration used}
+      \item{exitflag}{0=\code{ECOS_OPTIMAL}, 1=\code{ECOS_PINF},
+         2=\code{ECOS_DINF}, 10=\code{ECOS_INACC_OFFSET}, -1=\code{ECOS_MAXIT},
+         -2=\code{ECOS_NUMERICS}, -3=\code{ECOS_OUTCONE}, -4=\code{ECOS_SIGINT},
+         -7=\code{ECOS_FATAL}. See \link[ECOSolveR]{ECOS_exitcodes}}.
+      \item{iter}{the number of iterations used}
       \item{mi_iter}{the number of iterations for mixed integer problems}
       \item{numerr}{a non-zero number if a numeric error occurred}
     }
@@ -91,30 +112,46 @@ indicated, the solutions will be found using a branch and bound algorithm.
 \examples{
 
 ## githubIssue98
-G <- local({
-     Gpr <- c(0.416757847405471, 2.136196095668454, 1.793435585194863, -1.,
-         0.056266827226329, -1.640270808404989, 0.841747365656204, -1.,
-         0.416757847405471, 2.136196095668454, 1.793435585194863, -1.,
-         0.056266827226329, -1.640270808404989, 0.841747365656204, -1., -1.)
-     Gjc <- as.integer(c(0, 4, 8, 12, 16, 17))
-     Gir <- as.integer(c(0, 1, 2, 7, 0, 1, 2, 8, 3, 4, 5, 9, 3, 4, 5, 10, 6))
-     Matrix::sparseMatrix(i = Gir, p = Gjc, x = Gpr, index1 = FALSE)
-})
-print(G)
+cat("Basic matrix interface\\n")
+Gmat <- matrix(c(0.416757847405471, 2.13619609566845, 1.79343558519486, 0, 0,
+                 0, 0, -1, 0, 0, 0, 0.056266827226329, -1.64027080840499, 0.841747365656204,
+                 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0.416757847405471, 2.13619609566845,
+                 1.79343558519486, 0, 0, 0, -1, 0, 0, 0, 0, 0.056266827226329, -1.64027080840499,
+                 0.841747365656204, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0), ncol = 5L)
 c <- as.numeric(c(0, 0, 0, 0, 1))
 h <- as.numeric(c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 dims <- list(l = 6L, q = 5L, e = 0L)
-ECOS_csolve(c = c, G = G, h = h,
+ECOS_csolve(c = c, G = Gmat, h = h,
            dims = dims,
            A = NULL, b = numeric(0))
 
+cat("Simple Triplet Matrix interface, if you have package slam\\n")
+if (requireNamespace("slam")) {
 
-## A larger problem using saved data for the large matrices
-MPC01 <- readRDS(system.file("misc", "MPC01.rds", package="ECOSolveR"))
-retval <- ECOS_csolve(c = MPC01$c, G = MPC01$G, h = MPC01$h,
-                      dims = MPC01$dims)
-retval$retcodes
-retval$infostring
-retval$summary
+  ECOS_csolve(c = c, G = slam::as.simple_triplet_matrix(Gmat), h = h,
+              dims = dims,
+              A = NULL, b = numeric(0))
+}
+
+if (requireNamespace("Matrix")) {
+   ECOS_csolve(c = c, G = Matrix::Matrix(Gmat), h = h,
+               dims = dims,
+               A = NULL, b = numeric(0))
+}
+
+## Larger problems using saved data can be found in the test suite.
+## Here is one
+if (requireNamespace("Matrix")) {
+  MPC01 <- readRDS(system.file("testdata", "MPC01_1.RDS", package = "ECOSolveR"))
+  G <- Matrix::sparseMatrix(x = MPC01$Gpr, i = MPC01$Gir, p = MPC01$Gjc,
+                            dims = c(MPC01$m, MPC01$n), index1 = FALSE)
+  h <- MPC01$h
+  dims <- lapply(list(l = MPC01$l, q=MPC01$q, e=MPC01$e), as.integer)
+  retval <- ECOS_csolve(c = MPC01$c, G=G, h = h, dims = dims, A = NULL, b = NULL,
+                        control = ecos.control(verbose=1L))
+  retval$retcodes
+  retval$infostring
+  retval$summary
+}
 
 }

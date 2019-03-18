@@ -1,11 +1,19 @@
-PKG_CPPFLAGS=-Iecos/include -Iecos/external/ldl/include -Iecos/external/amd/include -Iecos/external/SuiteSparse_config
+ECOS_DIR=ecos
+ECOS_DIR_CHANGES=ecos-2954b2a-changes
 
-PKG_LIBS=-Lecos -lecos -lecos_bb
+PKG_CFLAGS=-DCTRLC=1 -DLDL_LONG -DDLONG -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -I../SuiteSparse_config -I$(ECOS_DIR)/include -I$(ECOS_DIR)/external/SuiteSparse_config
+PKG_LIBS=-L$(ECOS_DIR) -lecos -lecos_bb
 
-$(SHLIB): ecos.ts
+$(SHLIB): ecosolve.o ecosolver_init.o
+
+ecosolve.o: ecos.ts
+ecosolver_init.o: ecos.ts
 
 ecos.ts:
-	cd ecos && cp ecos-win.mk ecos.mk
-	cd ecos && $(MAKE) libecos.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"
-	cd ecos && $(MAKE) libecos_bb.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"
+	cp -f $(ECOS_DIR_CHANGES)/include/* $(ECOS_DIR)/include
+	cp -f $(ECOS_DIR_CHANGES)/ecos_bb/* $(ECOS_DIR)/ecos_bb
+	cp -f $(ECOS_DIR_CHANGES)/Makefile $(ECOS_DIR)
+	cp -f $(ECOS_DIR_CHANGES)/ecos-win.mk $(ECOS_DIR)/ecos.mk
+	cd $(ECOS_DIR) && $(MAKE) libecos.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS) $(PKG_CFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"
+	cd $(ECOS_DIR) && $(MAKE) libecos_bb.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS) $(PKG_CFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"
 	touch $@

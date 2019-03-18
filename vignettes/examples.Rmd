@@ -115,12 +115,3 @@ u <- z$x[(n+1):(2*n)]
 nnzx = sum(abs(x) > 1e-8)
 sprintf("x reconstructed with %d non-zero entries", nnzx / length(x) * 100)
 ```
-
-
-
-
-
-
-
-
-

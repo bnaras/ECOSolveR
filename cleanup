@@ -5,5 +5,5 @@
        make purge
     fi)
 
-rm -f config.* autom4te.cache src/ecos/ecos.ts src/Makevars src/*.o src/*.so src/*.dll src/ecos/__*
+rm -f src/ecos.ts src/*.o src/*.so src/*.dll src/ecos/__*
 

@@ -1,13 +1,15 @@
 Package: ECOSolveR
 Type: Package
 Title: Embedded Conic Solver in R
-Version: 0.4
-Date: 2018-02-16
+Version: 0.5
+Date: 2019-03-12
 VignetteBuilder: knitr
 Authors@R: c(person("Anqi", "Fu", role = c("aut"),
 	   	    email = "anqi.fu.1987@gmail.com"),
   	     person("Balasubramanian", "Narasimhan", role = c("aut", "cre"),
-	   	    email = "naras@stat.Stanford.EDU"))
+	   	    email = "naras@stat.Stanford.EDU"),
+	     person("Florian", "Schwendinger", role = c("ctb"),
+	             email = "FlorianSchwendinger@gmx.at"))
 SystemRequirements: GNU make
 URL: https://github.com/bnaras/ECOSolveR
 BugReports: https://github.com/bnaras/ECOSolveR/issues
@@ -15,9 +17,9 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    covr
-Imports:
-    Matrix
+    Matrix,
+    covr,
+    slam
 Description: R interface to the Embedded COnic Solver (ECOS), an efficient
 	     and robust C library for convex problems. Conic and equality
 	     constraints can be specified in addition to integer and
@@ -25,4 +27,5 @@ Description: R interface to the Embedded COnic Solver (ECOS), an efficient
 	     R interface is inspired by the python interface and has
 	     similar calling conventions.
 License: GPL(>=3)
-RoxygenNote: 6.0.1
+Encoding: UTF-8
+RoxygenNote: 6.1.1

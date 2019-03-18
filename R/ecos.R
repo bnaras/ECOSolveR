@@ -1,3 +1,29 @@
+
+make_csc_matrix <- function(x) UseMethod("make_csc_matrix")
+
+make_csc_matrix.matrix <- function(x) {
+    if( !is.matrix(x) )
+        stop("Argument 'x' must be a matrix.")
+
+    ind <- which(x != 0, arr.ind = TRUE)
+    list(matbeg = c(0L, cumsum(tabulate(ind[, 2L], ncol(x)))),
+         matind = ind[, 1] - 1L,
+         values = x[ind])
+}
+
+make_csc_matrix.simple_triplet_matrix <- function(x) {
+    if(!inherits(x, "simple_triplet_matrix"))
+        stop("Argument 'x' must be of class 'simple_triplet_matrix'.")
+
+    ## The matrix method assumes that indices for non-zero entries are
+    ## in row-major order, but the simple_triplet_matrix() constructor
+    ## currently does not canonicalize accordingly ...
+    ind <- order(x$j, x$i)
+    list(matbeg = c(0L, cumsum(tabulate(x$j[ind], x$ncol))),
+         matind = x$i[ind] - 1L,
+         values = x$v[ind])
+}
+
 #' Solve a conic optimization problem
 #'
 #' The function \code{ECOS_csolve} is a wrapper around the ecos
@@ -9,17 +35,32 @@
 #' values representing a lack of such constraints. At most one of the
 #' pair \eqn{(G , h)} or \eqn{(A, b)} is allowed to be absent.
 #'
-#' @importFrom Matrix sparseMatrix
-#'
-#' @param c the coefficients of the objective function; the length of this determines the number of variables \eqn{n} in the problem.
-#' @param G the inequality constraint sparse matrix in compressed column format, e.g. \link[Matrix]{dgCMatrix-class}. Can be \code{NULL}
-#' @param h the right hand size of the inequality constraint. Can be empty numeric vector.
-#' @param dims is a list of three named elements: \code{dims['l']} an integer specifying the dimension of positive orthant cone, \code{dims['q']} an integer vector specifying dimensions of second-order cones, \code{dims['e']} an integer specifying the number of exponential cones
-#' @param A the optional equality constraint sparse matrix in compressed column format, e.g. \link[Matrix]{dgCMatrix-class}. Can be \code{NULL}
-#' @param b the right hand side of the equality constraint, must be specified if \eqn{A} is. Can be empty numeric vector.
-#' @param bool_vars the indices of the variables, 1 through \eqn{n}, that are boolean; that is, they are either present or absent in the solution
-#' @param int_vars the indices of the variables, 1 through \eqn{n}, that are integers
-#' @param control is a named list that controls various optimization parameters; see \link[ECOSolveR]{ecos.control}.
+#' @param c the coefficients of the objective function; the length of
+#'     this determines the number of variables \eqn{n} in the problem.
+#' @param G the inequality constraint matrix in one of three forms: a
+#'     plain matrix, simple triplet matrix, or compressed column
+#'     format, e.g. \link[Matrix]{dgCMatrix-class}. Can also be
+#'     \code{NULL}
+#' @param h the right hand size of the inequality constraint. Can be
+#'     empty numeric vector.
+#' @param dims is a list of three named elements: \code{dims['l']} an
+#'     integer specifying the dimension of positive orthant cone,
+#'     \code{dims['q']} an integer vector specifying dimensions of
+#'     second-order cones, \code{dims['e']} an integer specifying the
+#'     number of exponential cones
+#' @param A the optional equality constraint matrix in one of three
+#'     forms: a plain matrix, simple triplet matrix, or compressed
+#'     column format, e.g. \link[Matrix]{dgCMatrix-class}. Can be
+#'     \code{NULL}
+#' @param b the right hand side of the equality constraint, must be
+#'     specified if \eqn{A} is. Can be empty numeric vector.
+#' @param bool_vars the indices of the variables, 1 through \eqn{n},
+#'     that are boolean; that is, they are either present or absent in
+#'     the solution
+#' @param int_vars the indices of the variables, 1 through \eqn{n},
+#'     that are integers
+#' @param control is a named list that controls various optimization
+#'     parameters; see \link[ECOSolveR]{ecos.control}.
 #'
 #' @return a list of 8 named items
 #'  \describe{
@@ -30,8 +71,11 @@
 #'   \item{infostring}{gives information about the status of solution}
 #'   \item{retcodes}{a named integer vector containing four elements
 #'     \describe{
-#'       \item{exitflag}{0=\code{OPTIMAL}, 1=\code{PRIMAL INFEASIBLE}, 2=\code{DUAL INFEASIBLE}, -1=\code{MAXIT REACHED}}
-#'       \item{iter}{the number of iteration used}
+#'       \item{exitflag}{0=\code{ECOS_OPTIMAL}, 1=\code{ECOS_PINF},
+#'          2=\code{ECOS_DINF}, 10=\code{ECOS_INACC_OFFSET}, -1=\code{ECOS_MAXIT},
+#'          -2=\code{ECOS_NUMERICS}, -3=\code{ECOS_OUTCONE}, -4=\code{ECOS_SIGINT},
+#'          -7=\code{ECOS_FATAL}. See \link[ECOSolveR]{ECOS_exitcodes}}.
+#'       \item{iter}{the number of iterations used}
 #'       \item{mi_iter}{the number of iterations for mixed integer problems}
 #'       \item{numerr}{a non-zero number if a numeric error occurred}
 #'     }
@@ -72,31 +116,47 @@
 #' @examples
 #'
 #' ## githubIssue98
-#' G <- local({
-#'      Gpr <- c(0.416757847405471, 2.136196095668454, 1.793435585194863, -1.,
-#'          0.056266827226329, -1.640270808404989, 0.841747365656204, -1.,
-#'          0.416757847405471, 2.136196095668454, 1.793435585194863, -1.,
-#'          0.056266827226329, -1.640270808404989, 0.841747365656204, -1., -1.)
-#'      Gjc <- as.integer(c(0, 4, 8, 12, 16, 17))
-#'      Gir <- as.integer(c(0, 1, 2, 7, 0, 1, 2, 8, 3, 4, 5, 9, 3, 4, 5, 10, 6))
-#'      Matrix::sparseMatrix(i = Gir, p = Gjc, x = Gpr, index1 = FALSE)
-#' })
-#' print(G)
+#' cat("Basic matrix interface\n")
+#' Gmat <- matrix(c(0.416757847405471, 2.13619609566845, 1.79343558519486, 0, 0,
+#'                  0, 0, -1, 0, 0, 0, 0.056266827226329, -1.64027080840499, 0.841747365656204,
+#'                  0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0.416757847405471, 2.13619609566845,
+#'                  1.79343558519486, 0, 0, 0, -1, 0, 0, 0, 0, 0.056266827226329, -1.64027080840499,
+#'                  0.841747365656204, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0), ncol = 5L)
 #' c <- as.numeric(c(0, 0, 0, 0, 1))
 #' h <- as.numeric(c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 #' dims <- list(l = 6L, q = 5L, e = 0L)
-#' ECOS_csolve(c = c, G = G, h = h,
+#' ECOS_csolve(c = c, G = Gmat, h = h,
 #'            dims = dims,
 #'            A = NULL, b = numeric(0))
 #'
+#' cat("Simple Triplet Matrix interface, if you have package slam\n")
+#' if (requireNamespace("slam")) {
 #'
-#' ## A larger problem using saved data for the large matrices
-#' MPC01 <- readRDS(system.file("misc", "MPC01.rds", package="ECOSolveR"))
-#' retval <- ECOS_csolve(c = MPC01$c, G = MPC01$G, h = MPC01$h,
-#'                       dims = MPC01$dims)
-#' retval$retcodes
-#' retval$infostring
-#' retval$summary
+#'   ECOS_csolve(c = c, G = slam::as.simple_triplet_matrix(Gmat), h = h,
+#'               dims = dims,
+#'               A = NULL, b = numeric(0))
+#' }
+#'
+#' if (requireNamespace("Matrix")) {
+#'    ECOS_csolve(c = c, G = Matrix::Matrix(Gmat), h = h,
+#'                dims = dims,
+#'                A = NULL, b = numeric(0))
+#' }
+#'
+#' ## Larger problems using saved data can be found in the test suite.
+#' ## Here is one
+#' if (requireNamespace("Matrix")) {
+#'   MPC01 <- readRDS(system.file("testdata", "MPC01_1.RDS", package = "ECOSolveR"))
+#'   G <- Matrix::sparseMatrix(x = MPC01$Gpr, i = MPC01$Gir, p = MPC01$Gjc,
+#'                             dims = c(MPC01$m, MPC01$n), index1 = FALSE)
+#'   h <- MPC01$h
+#'   dims <- lapply(list(l = MPC01$l, q=MPC01$q, e=MPC01$e), as.integer)
+#'   retval <- ECOS_csolve(c = MPC01$c, G=G, h = h, dims = dims, A = NULL, b = NULL,
+#'                         control = ecos.control(verbose=1L))
+#'   retval$retcodes
+#'   retval$infostring
+#'   retval$summary
+#' }
 #'
 #' @export
 ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
@@ -109,9 +169,6 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         stop(optionCheck)
     }
     dims <- lapply(dims, as.integer)
-    ## if (!isNontrivialNumericVector(c)) {
-    ##     stop("c should be a nontrivial numeric vector")
-    ## }
 
     nullG <- (is.null(G) || prod(dim(G)) == 0L)
     nontrivialH <- isNontrivialNumericVector(h)
@@ -128,44 +185,55 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         stop("A and b must be supplied together")
     }
 
+    nC <- length(c)
+
     if (nullG) {
-        m <- 0
-        n1 <- length(c)
-        Gpr <- Gir <- Gjc <- NULL
+        Gpr <- Gir <- Gjc <- h <- NULL
+        mG <- nG <- 0L
     } else {
-        if (!inherits(G, "CsparseMatrix")) {
-            stop("G is required to be of class dgCMatrix")
+        if ( inherits(G, "CsparseMatrix") ) {
+            Gpr <- G@x
+            Gir <- G@i
+            Gjc <- G@p
+        } else if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
+            csc <- make_csc_matrix(G)
+            Gpr <- csc[["values"]]
+            Gir <- csc[["matind"]]
+            Gjc <- csc[["matbeg"]]
+        } else {
+            stop("G is required to be of class dgCMatrix or matrix or simple_triplet_matrix")
         }
-        m <- nrow(G)
-        n1 <- ncol(G)
-        if (m != length(h)) {
-            stop("h has incompatible dimension with G")
+        mG <- nrow(G)
+        nG <- ncol(G)
+        if (nG != nC) {
+            stop("Column length of G and length of c should match")
         }
-        Gpr <- G@x
-        Gir <- G@i
-        Gjc <- G@p
     }
 
     if (nullA) {
-        p <- 0
-        n2 <- n1
-        Apr <- Air <- Ajc <- NULL
+        Apr <- Air <- Ajc <- b <- NULL
+        mA <- nA <- 0L
     } else {
-        if (!inherits(A, "CsparseMatrix")) {
+        if ( inherits(G, "CsparseMatrix") ) {
+            Apr <- A@x
+            Air <- A@i
+            Ajc <- A@p
+        } else if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
+            csc <- make_csc_matrix(G)
+            Gpr <- csc[["values"]]
+            Gir <- csc[["matind"]]
+            Gjc <- csc[["matbeg"]]
+        } else {
             stop("A is required to be of class dgCMatrix")
         }
-        p <- nrow(A)
-        n2 <- ncol(A)
-        if (p != length(b)) {
+        mA <- nrow(A)
+        nA <- ncol(A)
+        if (mA != length(b)) {
             stop("b has incompatible dimension with A")
         }
-        Apr <- A@x
-        Air <- A@i
-        Ajc <- A@p
-    }
-
-    if (n1 != n2) {
-        stop("Columns of A and G don't match")
+        if (nA != nC) {
+            stop("Column length of A and length of c should match")
+        }
     }
 
 
@@ -184,7 +252,7 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
     ## dimensions of the second order cones
     q <- dims$q
     if (!is.null(q)) {
-        if (typeof(q) != "integer" || !all(q > 0))
+        if (typeof(q) != "integer" || !all(q > 0L))
             stop("dims['q'] should be an integer vector of positive integers")
     }
     ## number of exponential cones
@@ -196,30 +264,27 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
             stop("dims['e'] should be a non-negative int")
     }
     ## I am not performing this check for now...
-    ## check that sum(q) + l = m
+    ## check that sum(q) + l + 3 * e = m
     ## if ( (sum(q) + l + 3 * e) != m ) {
     ##     stop("Number of rows of G does not match dims$l + sum(dims$q) + dims$e");
     ## }
 
-
-    if (typeof(bool_vars) != "integer" || ( length(bool_vars) > 0) && any(bool_vars < 1 | bool_vars > n1) ) {
-        stop(sprintf("bool_vars must integers between 1 and %d", n1))
+    bool_vars <- as.integer(bool_vars)
+    if (( length(bool_vars) > 0L) && any(bool_vars < 1L | bool_vars > nC) ) {
+        stop(sprintf("bool_vars must be integers between 1 and %d", nC))
     } else {
         bool_vars <- sort.int(bool_vars - 1L)
     }
 
-    if (typeof(int_vars) != "integer" || ( length(int_vars) > 0) && any(int_vars < 1 | int_vars > n1) ) {
-        stop(sprintf("int_vars must integers between 1 and %d", n1))
+    int_vars <- as.integer(int_vars)
+    if (( length(int_vars) > 0L) && any(int_vars < 1L | int_vars > nC) ) {
+        stop(sprintf("int_vars must be integers between 1 and %d", nC))
     } else {
         int_vars <- sort.int(int_vars - 1L)
     }
 
-    ## Need to set up options for the ...
-    mnp <- as.integer(c(m, n1, p))
-
-
     result <- .Call('ecos_csolve',
-                    mnp,
+                    c(mG, nC, mA),
                     l, q, e,
                     Gpr, Gjc, Gir,
                     Apr, Ajc, Air,
