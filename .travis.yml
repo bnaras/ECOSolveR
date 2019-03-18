@@ -1,12 +1,29 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
-sudo: false
+language: r
+
+r:
+  - release
+  - devel
+
 cache: packages
 
+r_packages:
+  - covr
+
+addons:
+  apt:
+    update: true
+
+sudo: false
+
+script: 
+  - |
+    R CMD build .
+    R CMD check ECOSolveR*tar.gz
+    
 after_success:
   - Rscript -e 'covr::codecov()'
 
-env:
-  global:
-  - _R_CHECK_FORCE_SUGGESTS_=FALSE
+notifications:
+  email: false
