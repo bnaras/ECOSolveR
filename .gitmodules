@@ -1,3 +1,0 @@
-[submodule "src/ecos"]
-	path = src/ecos
-	url = https://github.com/embotech/ecos
