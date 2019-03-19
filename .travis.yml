@@ -8,8 +8,8 @@ r:
 
 cache: packages
 
-r_packages:
-  - covr
+r_github_packages:
+  - r-lib/covr
 
 addons:
   apt:
