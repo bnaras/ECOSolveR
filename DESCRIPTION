@@ -11,7 +11,7 @@ Authors@R: c(person("Anqi", "Fu", role = c("aut"),
 	     person("Florian", "Schwendinger", role = c("ctb"),
 	             email = "FlorianSchwendinger@gmx.at"))
 SystemRequirements: GNU make
-URL: https://github.com/bnaras/ECOSolveR
+URL: https://bnaras.github.io/ECOSolveR
 BugReports: https://github.com/bnaras/ECOSolveR/issues
 Suggests:
     knitr,

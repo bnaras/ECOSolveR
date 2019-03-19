@@ -103,12 +103,7 @@ pair \((G , h)\) or \((A, b)\) is allowed to be absent." />
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/bnaras/ECOSolveR">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -122,7 +117,7 @@ pair \((G , h)\) or \((A, b)\) is allowed to be absent." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Solve a conic optimization problem</h1>
-    <small class="dont-index">Source: <a href='https://github.com/bnaras/ECOSolveR/blob/master/R/ecos.R'><code>R/ecos.R</code></a></small>
+    
     <div class="hidden name"><code>ECOS_csolve.Rd</code></div>
     </div>
 
@@ -298,7 +293,7 @@ indicated, the solutions will be found using a branch and bound algorithm.</p>
 #&gt; 
 #&gt; $timing
 #&gt;     runtime      tsetup      tsolve 
-#&gt; 0.000138912 0.000043254 0.000095658 
+#&gt; 0.000146865 0.000046405 0.000100460 
 #&gt; </div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='st'>"Simple Triplet Matrix interface, if you have package slam\n"</span>)</div><div class='output co'>#&gt; Simple Triplet Matrix interface, if you have package slam</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"slam"</span>)) {
 
@@ -337,7 +332,7 @@ indicated, the solutions will be found using a branch and bound algorithm.</p>
 #&gt; 
 #&gt; $timing
 #&gt;     runtime      tsetup      tsolve 
-#&gt; 0.000107777 0.000027738 0.000080039 
+#&gt; 0.000191064 0.000117484 0.000073580 
 #&gt; </div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"Matrix"</span>)) {
    <span class='fu'>ECOS_csolve</span>(<span class='kw'>c</span> <span class='kw'>=</span> <span class='no'>c</span>, <span class='kw'>G</span> <span class='kw'>=</span> <span class='kw pkg'>Matrix</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix</a></span>(<span class='no'>Gmat</span>), <span class='kw'>h</span> <span class='kw'>=</span> <span class='no'>h</span>,
@@ -375,7 +370,7 @@ indicated, the solutions will be found using a branch and bound algorithm.</p>
 #&gt; 
 #&gt; $timing
 #&gt;     runtime      tsetup      tsolve 
-#&gt; 0.000102683 0.000027004 0.000075679 
+#&gt; 0.000114442 0.000032122 0.000082320 
 #&gt; </div><div class='input'>
 <span class='co'>## Larger problems using saved data can be found in the test suite.</span>
 <span class='co'>## Here is one</span>
