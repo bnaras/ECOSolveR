@@ -1,3 +1,11 @@
+# ECOSolveR 0.5-1
+
+* ECOS source fix for header `glblopts.h` that defined `ECOS_NAN`
+  using portable R version `R_NaN` and `R_PosInf`. This caused the
+  convolution example in `CVXR` package to fail on 32-bit
+  platforms. 
+
+* Added a convolution test to be specific.
 
 # ECOSolveR 0.5
 
