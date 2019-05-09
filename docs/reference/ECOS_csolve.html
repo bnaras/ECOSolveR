@@ -293,7 +293,7 @@ indicated, the solutions will be found using a branch and bound algorithm.</p>
 #&gt; 
 #&gt; $timing
 #&gt;     runtime      tsetup      tsolve 
-#&gt; 0.000137294 0.000050668 0.000086626 
+#&gt; 0.000126763 0.000039694 0.000087069 
 #&gt; </div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='st'>"Simple Triplet Matrix interface, if you have package slam\n"</span>)</div><div class='output co'>#&gt; Simple Triplet Matrix interface, if you have package slam</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"slam"</span>)) {
 
@@ -331,8 +331,8 @@ indicated, the solutions will be found using a branch and bound algorithm.</p>
 #&gt;  1.000000e-08 
 #&gt; 
 #&gt; $timing
-#&gt;     runtime      tsetup      tsolve 
-#&gt; 0.000117871 0.000036330 0.000081541 
+#&gt;    runtime     tsetup     tsolve 
+#&gt; 9.6373e-05 2.4975e-05 7.1398e-05 
 #&gt; </div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"Matrix"</span>)) {
    <span class='fu'>ECOS_csolve</span>(<span class='kw'>c</span> <span class='kw'>=</span> <span class='no'>c</span>, <span class='kw'>G</span> <span class='kw'>=</span> <span class='kw pkg'>Matrix</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix</a></span>(<span class='no'>Gmat</span>), <span class='kw'>h</span> <span class='kw'>=</span> <span class='no'>h</span>,
@@ -369,8 +369,8 @@ indicated, the solutions will be found using a branch and bound algorithm.</p>
 #&gt;  1.000000e-08 
 #&gt; 
 #&gt; $timing
-#&gt;     runtime      tsetup      tsolve 
-#&gt; 0.000117821 0.000033064 0.000084757 
+#&gt;    runtime     tsetup     tsolve 
+#&gt; 1.1206e-04 2.9819e-05 8.2241e-05 
 #&gt; </div><div class='input'>
 <span class='co'>## Larger problems using saved data can be found in the test suite.</span>
 <span class='co'>## Here is one</span>

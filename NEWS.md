@@ -1,3 +1,9 @@
+# ECOSolveR 0.5-2
+
+* Fix compilation issue on Ubuntu by modifying `Makevars` and
+  `Makevars.win` to use `Rscript` call to `R.home()` to figure out
+  include path. ([Issue 5](https://github.com/bnaras/ECOSolveR/issues/5))
+
 # ECOSolveR 0.5-1
 
 * ECOS source fix for header `glblopts.h` that defined `ECOS_NAN`
