@@ -188,8 +188,11 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
     nC <- length(c)
 
     if (nullG) {
-        Gpr <- Gir <- Gjc <- h <- NULL
-        mG <- nG <- 0L
+        Gpr <- h <- numeric(0)
+        Gir <- integer(0)
+        Gjc <- integer(nC + 1L)
+        mG <- 0L
+        nG <- nC
     } else {
         if ( inherits(G, "CsparseMatrix") ) {
             Gpr <- G@x

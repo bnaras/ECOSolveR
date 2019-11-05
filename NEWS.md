@@ -1,3 +1,8 @@
+# ECOSolveR 0.5-3
+
+* Fix some awful cut-and-paste error in `R/ecos.R`
+* Address edge case for ECOS_BB when `G` is `NULL`.
+
 # ECOSolveR 0.5-2
 
 * Fix compilation issue on Ubuntu by modifying `Makevars` and
@@ -18,8 +23,7 @@
 * ECOS update: Synced underlying library to version 2.0.7.
 
 * Removed import of `Matrix` package, added `slam` interface,
-  contributions from [Florian
-  Schwendinger](https://github.com/FlorianSchwendinger/ECOSolveR/).
+  contributions from Florian Schwendinger.
 
 * Tests: Added a number of unit tests based on base C library.
 
