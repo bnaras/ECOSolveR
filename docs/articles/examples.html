@@ -7,9 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ECOSolveR Examples • ECOSolveR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="ECOSolveR Examples">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -31,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ECOSolveR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -39,7 +38,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -71,13 +70,12 @@
 <!--/.navbar -->
 
       
-
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>ECOSolveR Examples</h1>
             
-            <h4 class="date">2019-11-05</h4>
+            <h4 class="date">2019-05-09</h4>
       
       
       <div class="hidden name"><code>examples.Rmd</code></div>
@@ -107,49 +105,48 @@ z = \begin{pmatrix}x\\u\end{pmatrix}
      Gx \leq h
 \]</span> where the inequality is with respective to the positive orthant.</p>
 <p>Here is the R code that generates a random instance of this problem and solves it.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ECOSolveR)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(Matrix)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">182391</span>)</a>
-<a class="sourceLine" id="cb1-4" title="4">n &lt;-<span class="st"> </span>1000L</a>
-<a class="sourceLine" id="cb1-5" title="5">m &lt;-<span class="st"> </span>10L</a>
-<a class="sourceLine" id="cb1-6" title="6">density &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
-<a class="sourceLine" id="cb1-7" title="7">c &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.0</span>, n), <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1.0</span>, n))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ECOSolveR)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(Matrix)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">182391</span>)
+n &lt;-<span class="st"> </span>1000L
+m &lt;-<span class="st"> </span>10L
+density &lt;-<span class="st"> </span><span class="fl">0.01</span>
+c &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.0</span>, n), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">1.0</span>, n))</code></pre></div>
 <p>First, a function to generate random sparse matrices with normal entries.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">sprandn &lt;-<span class="st"> </span><span class="cf">function</span>(nrow, ncol, density) {</a>
-<a class="sourceLine" id="cb2-2" title="2">    items &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span>(nrow <span class="op">*</span><span class="st"> </span>ncol <span class="op">*</span><span class="st"> </span>density)</a>
-<a class="sourceLine" id="cb2-3" title="3">    <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(items),</a>
-<a class="sourceLine" id="cb2-4" title="4">             <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, nrow <span class="op">*</span><span class="st"> </span>ncol <span class="op">-</span><span class="st"> </span>items)),</a>
-<a class="sourceLine" id="cb2-5" title="5">           <span class="dt">nrow =</span> nrow)</a>
-<a class="sourceLine" id="cb2-6" title="6">}</a></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">A &lt;-<span class="st"> </span><span class="kw">sprandn</span>(m, n, density)</a>
-<a class="sourceLine" id="cb3-2" title="2">Atilde &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html">Matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(A, <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.0</span>, m <span class="op">*</span><span class="st"> </span>n), <span class="dt">nrow =</span> m)), <span class="dt">sparse =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3">b &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(m)</a>
-<a class="sourceLine" id="cb3-4" title="4">I &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/diag.html">diag</a></span>(n)</a>
-<a class="sourceLine" id="cb3-5" title="5">G &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(I, <span class="op">-</span>I),</a>
-<a class="sourceLine" id="cb3-6" title="6">           <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="op">-</span>I, <span class="op">-</span>I))</a>
-<a class="sourceLine" id="cb3-7" title="7">G &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/Matrix/man/Matrix.html">Matrix</a></span>(G, <span class="dt">sparse =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-8" title="8">h &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.0</span>, 2L <span class="op">*</span><span class="st"> </span>n)</a>
-<a class="sourceLine" id="cb3-9" title="9">dims &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">l =</span> 2L <span class="op">*</span><span class="st"> </span>n, <span class="dt">q =</span> <span class="ot">NULL</span>, <span class="dt">e =</span> 0L)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sprandn &lt;-<span class="st"> </span><span class="cf">function</span>(nrow, ncol, density) {
+    items &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">ceiling</a></span>(nrow <span class="op">*</span><span class="st"> </span>ncol <span class="op">*</span><span class="st"> </span>density)
+    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(items),
+             <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">0</span>, nrow <span class="op">*</span><span class="st"> </span>ncol <span class="op">-</span><span class="st"> </span>items)),
+           <span class="dt">nrow =</span> nrow)
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A &lt;-<span class="st"> </span><span class="kw">sprandn</span>(m, n, density)
+Atilde &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/Matrix/topics/Matrix">Matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(A, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.0</span>, m <span class="op">*</span><span class="st"> </span>n), <span class="dt">nrow =</span> m)), <span class="dt">sparse =</span> <span class="ot">TRUE</span>)
+b &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(m)
+I &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/diag">diag</a></span>(n)
+G &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(I, <span class="op">-</span>I),
+           <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(<span class="op">-</span>I, <span class="op">-</span>I))
+G &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/Matrix/topics/Matrix">Matrix</a></span>(G, <span class="dt">sparse =</span> <span class="ot">TRUE</span>)
+h &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="fl">0.0</span>, 2L <span class="op">*</span><span class="st"> </span>n)
+dims &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">l =</span> 2L <span class="op">*</span><span class="st"> </span>n, <span class="dt">q =</span> <span class="ot">NULL</span>, <span class="dt">e =</span> 0L)</code></pre></div>
 <p>Note how ECOS expects sparse matrices, not ordinary matrices.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">## Solve the problem</span></a>
-<a class="sourceLine" id="cb4-2" title="2">z &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ECOS_csolve.html">ECOS_csolve</a></span>(<span class="dt">c =</span> c, <span class="dt">G =</span> G, <span class="dt">h =</span> h, <span class="dt">dims =</span> dims, <span class="dt">A =</span> Atilde, <span class="dt">b =</span> b)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Solve the problem
+z &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ECOS_csolve.html">ECOS_csolve</a></span>(<span class="dt">c =</span> c, <span class="dt">G =</span> G, <span class="dt">h =</span> h, <span class="dt">dims =</span> dims, <span class="dt">A =</span> Atilde, <span class="dt">b =</span> b)</code></pre></div>
 <p>We check that the solution was found.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(z)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(z)</code></pre></div>
 <pre><code>## [1] "x"          "y"          "s"          "z"          "infostring"
 ## [6] "retcodes"   "summary"    "timing"</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">z<span class="op">$</span>infostring</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">z<span class="op">$</span>infostring</code></pre></div>
 <pre><code>## [1] "Optimal solution found"</code></pre>
 <p>Extract the solution.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">x &lt;-<span class="st"> </span>z<span class="op">$</span>x[<span class="dv">1</span><span class="op">:</span>n]</a>
-<a class="sourceLine" id="cb9-2" title="2">u &lt;-<span class="st"> </span>z<span class="op">$</span>x[(n<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>(<span class="dv">2</span><span class="op">*</span>n)]</a>
-<a class="sourceLine" id="cb9-3" title="3">nnzx =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(x) <span class="op">&gt;</span><span class="st"> </span><span class="fl">1e-8</span>)</a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="kw"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"x reconstructed with %d non-zero entries"</span>, nnzx <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>z<span class="op">$</span>x[<span class="dv">1</span><span class="op">:</span>n]
+u &lt;-<span class="st"> </span>z<span class="op">$</span>x[(n<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>(<span class="dv">2</span><span class="op">*</span>n)]
+nnzx =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(x) <span class="op">&gt;</span><span class="st"> </span><span class="fl">1e-8</span>)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sprintf">sprintf</a></span>(<span class="st">"x reconstructed with %d non-zero entries"</span>, nnzx <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(x) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</code></pre></div>
 <pre><code>## [1] "x reconstructed with 100 non-zero entries"</code></pre>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -162,20 +159,17 @@ z = \begin{pmatrix}x\\u\end{pmatrix}
 </div>
 
 
-
       <footer><div class="copyright">
   <p>Developed by <a href="https://web.stanford.edu/~anqif/">Anqi Fu</a>, <a href="https://web.stanford.edu/~naras">Balasubramanian Narasimhan</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
-
       </footer>
 </div>
 
   
-
 
   </body>
 </html>
