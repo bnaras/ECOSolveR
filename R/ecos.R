@@ -219,10 +219,10 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
             Air <- A@i
             Ajc <- A@p
         } else if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
-            csc <- make_csc_matrix(G)
-            Gpr <- csc[["values"]]
-            Gir <- csc[["matind"]]
-            Gjc <- csc[["matbeg"]]
+            csc <- make_csc_matrix(A)
+            Apr <- csc[["values"]]
+            Air <- csc[["matind"]]
+            Ajc <- csc[["matbeg"]]
         } else {
             stop("A is required to be of class dgCMatrix")
         }
