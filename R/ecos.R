@@ -194,7 +194,13 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         mG <- 0L
         nG <- nC
     } else {
-        if ( inherits(G, "CsparseMatrix") ) {
+        surelyCsp <- FALSE
+        if (inherits(G, "sparseMatrix")) { # including Matrix' "diagonalMatrix"
+            G <- as(G, "CsparseMatrix")
+            surelyCsp <- TRUE
+        }
+        if (surelyCsp || inherits(G, "CsparseMatrix")) {
+            if(!surelyCsp)) surelyCsp <- TRUE
             Gpr <- G@x
             Gir <- G@i
             Gjc <- G@p
@@ -217,7 +223,7 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         Apr <- Air <- Ajc <- b <- NULL
         mA <- nA <- 0L
     } else {
-        if ( inherits(G, "CsparseMatrix") ) {
+        if (surelyCsp || inherits(G, "CsparseMatrix")) {
             Apr <- A@x
             Air <- A@i
             Ajc <- A@p
