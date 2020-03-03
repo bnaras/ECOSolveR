@@ -200,7 +200,7 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
             surelyCsp <- TRUE
         }
         if (surelyCsp || inherits(G, "CsparseMatrix")) {
-            if(!surelyCsp)) surelyCsp <- TRUE
+            if(!surelyCsp) surelyCsp <- TRUE
             Gpr <- G@x
             Gir <- G@i
             Gjc <- G@p
