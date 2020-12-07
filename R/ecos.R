@@ -157,6 +157,7 @@ make_csc_matrix.simple_triplet_matrix <- function(x) {
 #'   retval$infostring
 #'   retval$summary
 #' }
+#' @importFrom methods as
 #'
 #' @export
 ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
