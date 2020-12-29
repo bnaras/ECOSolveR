@@ -1,18 +1,23 @@
 Package: ECOSolveR
 Type: Package
 Title: Embedded Conic Solver in R
-Version: 0.5.3
-Date: 2019-11-05
+Version: 0.5.4
+Date: 2020-12-29
 VignetteBuilder: knitr
 Authors@R: c(person("Anqi", "Fu", role = c("aut"),
 	   	    email = "anqi.fu.1987@gmail.com"),
   	     person("Balasubramanian", "Narasimhan", role = c("aut", "cre"),
 	   	    email = "naras@stat.Stanford.EDU"),
 	     person("Florian", "Schwendinger", role = c("ctb"),
-	             email = "FlorianSchwendinger@gmx.at"))
+	             email = "FlorianSchwendinger@gmx.at")
+	   , person("Martin", "Maechler", role = "ctb",
+	             email = "maechler@stat.math.ethz.ch")
+	   )
 SystemRequirements: GNU make
-URL: https://bnaras.github.io/ECOSolveR
+URL: https://bnaras.github.io/ECOSolveR/
 BugReports: https://github.com/bnaras/ECOSolveR/issues
+Imports:
+    methods
 Suggests:
     knitr,
     rmarkdown,
