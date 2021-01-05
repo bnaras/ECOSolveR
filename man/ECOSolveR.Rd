@@ -3,7 +3,6 @@
 \docType{package}
 \name{ECOSolveR}
 \alias{ECOSolveR}
-\alias{ECOSolveR-package}
 \title{ECOSolveR: Embedded Conic Solver in R}
 \description{
 \code{ECOSolveR} is a wrapper around the ecos library.

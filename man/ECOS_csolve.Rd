@@ -4,10 +4,17 @@
 \alias{ECOS_csolve}
 \title{Solve a conic optimization problem}
 \usage{
-ECOS_csolve(c = numeric(0), G = NULL, h = numeric(0), dims = list(l
-  = integer(0), q = NULL, e = integer(0)), A = NULL, b = numeric(0),
-  bool_vars = integer(0), int_vars = integer(0),
-  control = ecos.control())
+ECOS_csolve(
+  c = numeric(0),
+  G = NULL,
+  h = numeric(0),
+  dims = list(l = integer(0), q = NULL, e = integer(0)),
+  A = NULL,
+  b = numeric(0),
+  bool_vars = integer(0),
+  int_vars = integer(0),
+  control = ecos.control()
+)
 }
 \arguments{
 \item{c}{the coefficients of the objective function; the length of
@@ -112,7 +119,7 @@ indicated, the solutions will be found using a branch and bound algorithm.
 \examples{
 
 ## githubIssue98
-cat("Basic matrix interface\\n")
+cat("Basic matrix interface\n")
 Gmat <- matrix(c(0.416757847405471, 2.13619609566845, 1.79343558519486, 0, 0,
                  0, 0, -1, 0, 0, 0, 0.056266827226329, -1.64027080840499, 0.841747365656204,
                  0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0.416757847405471, 2.13619609566845,
@@ -125,7 +132,7 @@ ECOS_csolve(c = c, G = Gmat, h = h,
            dims = dims,
            A = NULL, b = numeric(0))
 
-cat("Simple Triplet Matrix interface, if you have package slam\\n")
+cat("Simple Triplet Matrix interface, if you have package slam\n")
 if (requireNamespace("slam")) {
 
   ECOS_csolve(c = c, G = slam::as.simple_triplet_matrix(Gmat), h = h,
@@ -153,5 +160,4 @@ if (requireNamespace("Matrix")) {
   retval$infostring
   retval$summary
 }
-
 }

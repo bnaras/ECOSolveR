@@ -4,10 +4,20 @@
 \alias{ecos.control}
 \title{Return the default optimization parameters for ECOS}
 \usage{
-ecos.control(maxit = 100L, feastol = 1e-08, reltol = 1e-08,
-  abstol = 1e-08, feastol_inacc = 1e-04, abstol_inacc = 5e-05,
-  reltol_inacc = 5e-05, verbose = 0L, mi_max_iters = 1000L,
-  mi_int_tol = 1e-04, mi_abs_eps = 1e-06, mi_rel_eps = 1e-06)
+ecos.control(
+  maxit = 100L,
+  feastol = 1e-08,
+  reltol = 1e-08,
+  abstol = 1e-08,
+  feastol_inacc = 1e-04,
+  abstol_inacc = 5e-05,
+  reltol_inacc = 5e-05,
+  verbose = 0L,
+  mi_max_iters = 1000L,
+  mi_int_tol = 1e-04,
+  mi_abs_eps = 1e-06,
+  mi_rel_eps = 1e-06
+)
 }
 \arguments{
 \item{maxit}{the maximum number of iterations for ecos, default 100L}

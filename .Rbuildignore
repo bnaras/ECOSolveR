@@ -17,3 +17,4 @@
 ^src/ecos/README\.pdf
 ^src/ecos/vstudio/*
 ^src/ecos.ts$
+^\.github$

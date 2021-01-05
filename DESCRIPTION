@@ -2,7 +2,7 @@ Package: ECOSolveR
 Type: Package
 Title: Embedded Conic Solver in R
 Version: 0.5.4
-Date: 2020-12-29
+Date: 2020-01-05
 VignetteBuilder: knitr
 Authors@R: c(person("Anqi", "Fu", role = c("aut"),
 	   	    email = "anqi.fu.1987@gmail.com"),
@@ -33,4 +33,4 @@ Description: R interface to the Embedded COnic Solver (ECOS), an efficient
 	     similar calling conventions.
 License: GPL(>=3)
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1

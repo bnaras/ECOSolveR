@@ -16,33 +16,31 @@ describes ECOS as below.
 ECOS is a numerical software for solving convex second-order cone programs (SOCPs) of type
 
 $$
-\mbox{Minimize } c'x \mbox{ such that } Ax = b \mbox{ and } Gx <=_K h
+\mbox{Minimize } c'x \mbox{ such that } {\mathbf Ax} = {\mathbf b} \mbox{ and } {\mathbf G \mathbf x}\,\, \leq_{\mathbf K}\,\, {\mathbf h}
 $$
-where the last inequality is generalized, that is, $h-Gx$ belongs to
-the cone $K$.
+where the last inequality is generalized, that is, ${\mathbf h}-\mathbf{Gx}$ belongs to
+the cone ${\mathbf K}$.
 
 ECOS supports the positive orthant ${\mathbf R}_+$, second-order cones
-$Q_n$ defined as
+${\mathbf Q}_n$ defined as
 
 $$
-Q_n = \bigl\{ (t,{\mathbf x}) | t >= \lVert{\mathbf x}\rVert_2 \bigr\}
+{\mathbf Q}_n = \bigl\{ (t,{\mathbf x}) | t >= \lVert{\mathbf x}\rVert_2 \bigr\}
 $$
 
 with $t$ a scalar and ${\mathbf x} \in {\mathbf R}_{n-1}$, and the exponential
-cone $K_e$ defined as
+cone ${\mathbf K}_e$ defined as
 
 $$
-K_e = \mbox{closure} \bigl\{ (x,y,z) | exp(x/z) <= y/z, z>0 \bigr\},
+\mathbf{K}_e = \mbox{closure} \bigl\{ (x,y,z) | exp(x/z) <= y/z, z>0 \bigr\},
 $$
 
 where  $(x,y,z) \in {\mathbf R}^3$.
 
-The cone $K$ is therefore a direct product of the positive orthant, second-order, and exponential cones:
+The cone ${\mathbf K}$ is therefore a direct product of the positive orthant, second-order, and exponential cones:
 
 $$
-\begin{array}{l}
-K = R_+ \times Q_{n_1} \times \cdots \times Q_{n_N} \times K_e \times \cdots \times K_e.
-\end{array}
+{\mathbf K} = {\mathbf R}_+ \times {\mathbf Q}_{n_1} \times \cdots \times {\mathbf Q}_{n_N} \times {\mathbf K}_e \times \cdots \times {\mathbf K}_e.
 $$
 
 ## Further Details
