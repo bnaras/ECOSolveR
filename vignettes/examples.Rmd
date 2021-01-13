@@ -88,7 +88,7 @@ b <- rnorm(m)
 I <- diag(n)
 G <- rbind(cbind(I, -I),
            cbind(-I, -I))
-G <- Matrix(G, sparse = TRUE)
+G <- as(G, "dgCMatrix")
 h <- rep(0.0, 2L * n)
 dims <- list(l = 2L * n, q = NULL, e = 0L)
 ```

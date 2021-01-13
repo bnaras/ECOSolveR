@@ -195,13 +195,8 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         mG <- 0L
         nG <- nC
     } else {
-        surelyCsp <- FALSE
-        if (inherits(G, "sparseMatrix")) { # including Matrix' "diagonalMatrix"
-            G <- as(G, "CsparseMatrix")
-            surelyCsp <- TRUE
-        }
-        if (surelyCsp || inherits(G, "CsparseMatrix")) {
-            if(!surelyCsp) surelyCsp <- TRUE
+        if (inherits(G, "sparseMatrix")) {
+            if (!inherits(G, "dgCMatrix")) G  <- as(as(G, "CsparseMatrix"), "dgCMatrix")
             Gpr <- G@x
             Gir <- G@i
             Gjc <- G@p
@@ -224,7 +219,8 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         Apr <- Air <- Ajc <- b <- NULL
         mA <- nA <- 0L
     } else {
-        if (surelyCsp || inherits(G, "CsparseMatrix")) {
+        if (inherits(A, "sparseMatrix")) {
+            if (!inherits(A, "dgCMatrix")) A  <- as(as(A, "CsparseMatrix"), "dgCMatrix")
             Apr <- A@x
             Air <- A@i
             Ajc <- A@p
@@ -234,7 +230,7 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
             Air <- csc[["matind"]]
             Ajc <- csc[["matbeg"]]
         } else {
-            stop("A is required to be of class dgCMatrix")
+            stop("A is required to be of class dgCMatrix or matrix or simple_triplet_matrix")
         }
         mA <- nrow(A)
         nA <- ncol(A)

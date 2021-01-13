@@ -1,5 +1,10 @@
 # ECOSolveR 0.5-3
 
+* Address the issue caused by Matrix 1.3.x: Force coercion to
+  "dgCMatrix" if not so. Make corresponding change in vignette.
+
+# ECOSolveR 0.5-3
+
 * Fix some awful cut-and-paste error in `R/ecos.R`
 * Address edge case for ECOS_BB when `G` is `NULL`.
 
