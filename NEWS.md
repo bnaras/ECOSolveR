@@ -1,4 +1,4 @@
-# ECOSolveR 0.5-3
+# ECOSolveR 0.5-4
 
 * Address the issue caused by Matrix 1.3.x: Force coercion to
   "dgCMatrix" if not so. Make corresponding change in vignette.
