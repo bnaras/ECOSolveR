@@ -25,7 +25,7 @@ $$
 $$
 
 $$
-{\mathbf G \mathbf x}\,\, \leq_{\mathbf K}\,\, {\mathbf h}
+{\mathbf G \mathbf x} \leq_{\mathbf K} {\mathbf h}
 $$
 
 where the last inequality is generalized, that is, ${\mathbf h}-\mathbf{Gx}$ belongs to
@@ -42,7 +42,7 @@ with $t$ a scalar and ${\mathbf x} \in {\mathbf R}_{n-1}$, and the exponential
 cone ${\mathbf K}_e$ defined as
 
 $$
-\mathbf{K}_e = \mbox{closure} \bigl\{ (x,y,z) | exp(x/z) <= y/z, z>0 \bigr\},
+\mathbf{K}_e = \mbox{closure} \Bigl\{ (x,y,z) | exp(x/z) <= y/z, z>0 \Bigr\},
 $$
 
 where  $(x,y,z) \in {\mathbf R}^3$.
