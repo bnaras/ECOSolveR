@@ -158,7 +158,7 @@ void updateDataEntry_h(ecos_bb_pwork* w, idxint idx, pfloat value);
 
 void updateDataEntry_c(ecos_bb_pwork* w, idxint idx, pfloat value);
 
-settings_bb* get_default_ECOS_BB_settings();
+settings_bb* get_default_ECOS_BB_settings(void);
 
 #ifndef IGNORE_UNUSED_FUNCTIONS
 

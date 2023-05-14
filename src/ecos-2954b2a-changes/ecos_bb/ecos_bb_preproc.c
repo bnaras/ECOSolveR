@@ -295,7 +295,7 @@ void ECOS_BB_cleanup(ecos_bb_pwork* prob, idxint num_vars_keep){
     FREE(prob);
 }
 
-settings_bb* get_default_ECOS_BB_settings(){
+settings_bb* get_default_ECOS_BB_settings(void){
     settings_bb* stgs = (settings_bb*) MALLOC( sizeof(settings_bb) );
     stgs->maxit = MI_MAXITER;
     stgs->verbose = 1;
