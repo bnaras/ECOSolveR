@@ -42,7 +42,7 @@ with $t$ a scalar and ${\mathbf x} \in {\mathbf R}_{n-1}$, and the exponential
 cone ${\mathbf K}_e$ defined as
 
 $$
-\mathbf{K}_e = \mbox{closure} \Bigl\{ (x,y,z) | exp(x/z) <= y/z, z>0 \Bigr\},
+\mathbf{K}_e = \mbox{closure} \\{ (x,y,z) | exp(x/z) <= y/z, z>0 \\},
 $$
 
 where  $(x,y,z) \in {\mathbf R}^3$.
