@@ -35,7 +35,7 @@ ECOS supports the positive orthant ${\mathbf R}_+$, second-order cones
 ${\mathbf Q}_n$ defined as
 
 $$
-{\mathbf Q}_n = \{ (t,{\mathbf x}) | t >= \lVert{\mathbf x}\rVert_2 \}
+{\mathbf Q}_n = \\{ (t,{\mathbf x}) | t >= \lVert{\mathbf x}\rVert_2 \\}
 $$
 
 with $t$ a scalar and ${\mathbf x} \in {\mathbf R}_{n-1}$, and the exponential
