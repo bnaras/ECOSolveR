@@ -13,7 +13,12 @@ Embedded Conic Solver in R. This is an R wrapper around the
 [ecos](https://github.com/embotech/ecos) project on GitHub which
 describes ECOS as below.
 
-ECOS is a numerical software for solving convex second-order cone programs (SOCPs) of type
+ECOS is a numerical software for solving convex second-order cone
+programs (SOCPs) of type
+
+$$
+\mbox{Minimize } c'x \mbox{ such that }
+$$
 
 $$
 \mbox{Minimize } c'x \mbox{ such that } {\mathbf Ax} = {\mathbf b} \mbox{ and } {\mathbf G \mathbf x}\,\, \leq_{\mathbf K}\,\, {\mathbf h}
