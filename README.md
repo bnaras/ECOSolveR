@@ -21,8 +21,13 @@ $$
 $$
 
 $$
-\mbox{Minimize } c'x \mbox{ such that } {\mathbf Ax} = {\mathbf b} \mbox{ and } {\mathbf G \mathbf x}\,\, \leq_{\mathbf K}\,\, {\mathbf h}
+{\mathbf Ax} = {\mathbf b} \mbox{ and } 
 $$
+
+$$
+{\mathbf G \mathbf x}\,\, \leq_{\mathbf K}\,\, {\mathbf h}
+$$
+
 where the last inequality is generalized, that is, ${\mathbf h}-\mathbf{Gx}$ belongs to
 the cone ${\mathbf K}$.
 
