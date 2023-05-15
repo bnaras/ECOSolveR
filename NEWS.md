@@ -1,6 +1,6 @@
 # ECOSolveR 0.5-5
 
-* Fix CRAN warnings on prototypes.
+* Fix CRAN issues re: prototypes.
 
 # ECOSolveR 0.5-4
 
