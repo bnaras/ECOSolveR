@@ -1,3 +1,7 @@
+# ECOSolveR 0.5-5
+
+* Fix CRAN warnings on prototypes.
+
 # ECOSolveR 0.5-4
 
 * Address the issue caused by Matrix 1.3.x: Force coercion to

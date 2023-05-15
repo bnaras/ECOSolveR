@@ -6,3 +6,4 @@ config.status
 autom4te.cache
 src/ecos.ts
 src/ecos/__*
+docs
