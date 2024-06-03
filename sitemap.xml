@@ -25,12 +25,15 @@
     <loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_exitcodes.html</loc>
   </url>
   <url>
-    <loc>http://bnaras.github.io/ECOSolveR/reference/ECOSolveR.html</loc>
+    <loc>http://bnaras.github.io/ECOSolveR/reference/ECOSolveR-package.html</loc>
   </url>
   <url>
     <loc>http://bnaras.github.io/ECOSolveR/reference/ecos.control.html</loc>
   </url>
   <url>
     <loc>http://bnaras.github.io/ECOSolveR/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>http://bnaras.github.io/ECOSolveR/reference/make_csc_matrix.html</loc>
   </url>
 </urlset>
