@@ -1,16 +1,20 @@
-
+#' Convert a plain matrix or simple triplet form matrix to a [Matrix::dgCMatrix-class] (implicit) form
+#' @param x a matrix or a simple triplet form matrix
+#' @return a list of row pointer, column pointer, and values corresponding to a [Matrix::dgCMatrix-class] object
 make_csc_matrix <- function(x) UseMethod("make_csc_matrix")
 
+#' @method make_csc_matrix matrix
 make_csc_matrix.matrix <- function(x) {
     if( !is.matrix(x) )
         stop("Argument 'x' must be a matrix.")
 
     ind <- which(x != 0, arr.ind = TRUE)
     list(matbeg = c(0L, cumsum(tabulate(ind[, 2L], ncol(x)))),
-         matind = ind[, 1] - 1L,
+         matind = ind[, 1L] - 1L,
          values = x[ind])
 }
 
+#' @method make_csc_matrix simple_triplet_matrix
 make_csc_matrix.simple_triplet_matrix <- function(x) {
     if(!inherits(x, "simple_triplet_matrix"))
         stop("Argument 'x' must be of class 'simple_triplet_matrix'.")
@@ -195,18 +199,17 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         mG <- 0L
         nG <- nC
     } else {
-        if (inherits(G, "sparseMatrix")) {
-            if (!inherits(G, "dgCMatrix")) G  <- as(as(G, "CsparseMatrix"), "dgCMatrix")
-            Gpr <- G@x
-            Gir <- G@i
-            Gjc <- G@p
-        } else if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
+        if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
             csc <- make_csc_matrix(G)
             Gpr <- csc[["values"]]
             Gir <- csc[["matind"]]
             Gjc <- csc[["matbeg"]]
+        } else if (inherits(G, "dgCMatrix")) {
+            Gpr <- G@x
+            Gir <- G@i
+            Gjc <- G@p
         } else {
-            stop("G is required to be of class dgCMatrix or matrix or simple_triplet_matrix")
+            stop("G is required to be of class dgCMatrix/matrix/simple_triplet_matrix")
         }
         mG <- nrow(G)
         nG <- ncol(G)

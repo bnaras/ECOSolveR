@@ -1,3 +1,7 @@
+# ECOSolveR 0.5-6
+
+* Clean up matrix coercions
+
 # ECOSolveR 0.5-5
 
 * Fix CRAN issues re: prototypes.
