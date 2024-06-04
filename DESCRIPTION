@@ -17,12 +17,12 @@ SystemRequirements: GNU make
 URL: https://bnaras.github.io/ECOSolveR/
 BugReports: https://github.com/bnaras/ECOSolveR/issues
 Imports:
+    Matrix,
     methods
 Suggests:
     knitr,
     rmarkdown,
     testthat,
-    Matrix,
     covr,
     slam
 Description: R interface to the Embedded COnic Solver (ECOS), an efficient

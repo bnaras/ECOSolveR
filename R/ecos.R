@@ -3,6 +3,9 @@
 #' @return a list of row pointer, column pointer, and values corresponding to a [Matrix::dgCMatrix-class] object
 make_csc_matrix <- function(x) UseMethod("make_csc_matrix")
 
+#' @method make_csc_matrix default
+make_csc_matrix.default <- function(x) stop("x must be a matrix/simple_triple_matrix/Matrix!")
+
 #' @method make_csc_matrix matrix
 make_csc_matrix.matrix <- function(x) {
     if( !is.matrix(x) )
@@ -26,6 +29,24 @@ make_csc_matrix.simple_triplet_matrix <- function(x) {
     list(matbeg = c(0L, cumsum(tabulate(x$j[ind], x$ncol))),
          matind = x$i[ind] - 1L,
          values = x$v[ind])
+}
+
+#' @method make_csc_matrix Matrix
+#' @import Matrix
+make_csc_matrix.Matrix <- function(x) {
+  if (!inherits(x, "dgCMatrix")) {
+    if (is(x, "ddiMatrix")) {
+      indices <- seq_len(nrow(x))
+      list(matbeg = c(0L, indices),
+           matind = indices - 1L,
+           values = x@x)
+    } else {
+      tmp <- as(as(x, "CsparseMatrix"), "generalMatrix", "dMatrix")
+      list(matbeg = tmp@p, matind = tmp@i, values = tmp@x)
+    }
+  } else {
+    list(matbeg = x@p, matind = x@i, values = x@x)
+  }
 }
 
 #' Solve a conic optimization problem
@@ -162,7 +183,6 @@ make_csc_matrix.simple_triplet_matrix <- function(x) {
 #'   retval$summary
 #' }
 #' @importFrom methods as
-#'
 #' @export
 ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
                          dims=list(l = integer(0), q = NULL, e = integer(0)),
@@ -199,18 +219,10 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         mG <- 0L
         nG <- nC
     } else {
-        if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
-            csc <- make_csc_matrix(G)
-            Gpr <- csc[["values"]]
-            Gir <- csc[["matind"]]
-            Gjc <- csc[["matbeg"]]
-        } else if (inherits(G, "dgCMatrix")) {
-            Gpr <- G@x
-            Gir <- G@i
-            Gjc <- G@p
-        } else {
-            stop("G is required to be of class dgCMatrix/matrix/simple_triplet_matrix")
-        }
+        csc <- make_csc_matrix(G)
+        Gpr <- csc[["values"]]
+        Gir <- csc[["matind"]]
+        Gjc <- csc[["matbeg"]]
         mG <- nrow(G)
         nG <- ncol(G)
         if (nG != nC) {
@@ -222,19 +234,10 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         Apr <- Air <- Ajc <- b <- NULL
         mA <- nA <- 0L
     } else {
-        if (inherits(A, "sparseMatrix")) {
-            if (!inherits(A, "dgCMatrix")) A  <- as(as(A, "CsparseMatrix"), "dgCMatrix")
-            Apr <- A@x
-            Air <- A@i
-            Ajc <- A@p
-        } else if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
-            csc <- make_csc_matrix(A)
-            Apr <- csc[["values"]]
-            Air <- csc[["matind"]]
-            Ajc <- csc[["matbeg"]]
-        } else {
-            stop("A is required to be of class dgCMatrix or matrix or simple_triplet_matrix")
-        }
+        csc <- make_csc_matrix(A)
+        Apr <- csc[["values"]]
+        Air <- csc[["matind"]]
+        Ajc <- csc[["matbeg"]]
         mA <- nrow(A)
         nA <- ncol(A)
         if (mA != length(b)) {

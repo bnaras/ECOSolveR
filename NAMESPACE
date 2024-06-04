@@ -2,6 +2,7 @@
 
 export(ECOS_csolve)
 export(ecos.control)
+import(Matrix)
 import(methods)
 importFrom(methods,as)
 useDynLib(ECOSolveR)
