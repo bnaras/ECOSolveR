@@ -13,7 +13,15 @@ name: Reverse dependency check
 jobs:
   revdep_check:
     name: Reverse check ${{ inputs.which }} dependents
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.branch }}
+        submodules: 'true'
+
+    - name: Run recheck workflow           
     uses: r-devel/recheck/.github/workflows/recheck.yml@v1
     with:
-      submodules: 'true'
       which: ${{ inputs.which }}
