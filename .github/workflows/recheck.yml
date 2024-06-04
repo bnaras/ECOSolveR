@@ -15,4 +15,5 @@ jobs:
     name: Reverse check ${{ inputs.which }} dependents
     uses: r-devel/recheck/.github/workflows/recheck.yml@v1
     with:
+      submodules: 'true'
       which: ${{ inputs.which }}
