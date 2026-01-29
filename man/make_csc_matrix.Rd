@@ -15,3 +15,4 @@ a list of row pointer, column pointer, and values corresponding to a [Matrix::dg
 \description{
 Convert a plain matrix or simple triplet form matrix to a [Matrix::dgCMatrix-class] (implicit) form
 }
+\keyword{internal}

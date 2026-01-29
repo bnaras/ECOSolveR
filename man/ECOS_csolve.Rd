@@ -25,7 +25,7 @@ plain matrix, simple triplet matrix, or compressed column
 format, e.g. \link[Matrix]{dgCMatrix-class}. Can also be
 \code{NULL}}
 
-\item{h}{the right hand size of the inequality constraint. Can be
+\item{h}{the right hand side of the inequality constraint. Can be
 empty numeric vector.}
 
 \item{dims}{is a list of three named elements: \code{dims['l']} an
