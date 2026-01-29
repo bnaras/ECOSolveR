@@ -33,4 +33,4 @@ Description: R interface to the Embedded COnic Solver (ECOS), an efficient
 	     similar calling conventions.
 License: GPL(>=3)
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
