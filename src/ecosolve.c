@@ -6,17 +6,11 @@
 #include "ecos.h"
 #include "ecos_bb.h"
 
-#ifdef ENABLE_NLS
-#include <libintl.h>
-#define _(String) dgettext ("ECOSolveR", String)
-/* replace pkg as appropriate */
-#else
-#define _(String) (String)
-#endif
 
 /** Modified from R-exts example for getting a named element */
 SEXP getListElement(SEXP list, const char *str) {
   SEXP elmt = R_NilValue, names = getAttrib(list, R_NamesSymbol);
+  if (names == R_NilValue) return R_NilValue;
   for (int i = 0; i < length(list); i++)
     if(strcmp(CHAR(STRING_ELT(names, i)), str) == 0) {
       elmt = VECTOR_ELT(list, i);
@@ -61,6 +55,9 @@ idxint * int2idxint(SEXP intsxp) {
   n = length(intsxp);
   source = INTEGER(intsxp);
   result = (idxint *) malloc(n * sizeof(idxint));
+  if (result == NULL) {
+    Rf_error("Out of memory in int2idxint (could not allocate %d elements)", n);
+  }
   for (int i = 0; i < n; i++) {
     result[i] = source[i];
   }
@@ -192,11 +189,9 @@ SEXP ecos_csolve(SEXP sMNP, SEXP sl, SEXP sq, SEXP se,
 				   Apr, Ajc, Air, c, h, b,
 				   num_bool, bool_vars, num_int, int_vars, &opts_ecos_bb);
     if ( myecos_bb_work == NULL ) {
-      /*  ERROR NEED TO FIX UP  */
-      /* "Internal problem occurred in ECOS_BB while setting up the problem.\nPlease send a bug report with data to Alexander Domahidi.\nEmail: domahidi@control.ee.ethz.ch" */
-      /* Free whatever was allocated, including the structure */
       free_allocated(&allocated);
-      return R_NilValue;
+      Rf_error("Internal problem occurred in ECOS_BB while setting up the problem.");
+      return R_NilValue; /* not reached */
     }
 
     mywork = myecos_bb_work->ecos_prob;
@@ -212,11 +207,9 @@ SEXP ecos_csolve(SEXP sMNP, SEXP sl, SEXP sq, SEXP se,
     /* This calls ECOS setup function */
     mywork = ECOS_setup(n, m, p, l, ncones, q, e, Gpr, Gjc, Gir, Apr, Ajc, Air, c, h, b);
     if ( mywork == NULL ) {
-      /*  ERROR NEED TO FIX UP  */
-      /* "Internal problem occurred in ECOS while setting up the problem.\nPlease send a bug report with data to Alexander Domahidi.\nEmail: domahidi@control.ee.ethz.ch" */
-      /* Free whatever was allocated, including the structure */
       free_allocated(&allocated);
-      return R_NilValue;
+      Rf_error("Internal problem occurred in ECOS while setting up the problem.");
+      return R_NilValue; /* not reached */
     }
 
     /* Set up parameters for ECOS */

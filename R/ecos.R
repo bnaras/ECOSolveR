@@ -1,6 +1,7 @@
 #' Convert a plain matrix or simple triplet form matrix to a [Matrix::dgCMatrix-class] (implicit) form
 #' @param x a matrix or a simple triplet form matrix
 #' @return a list of row pointer, column pointer, and values corresponding to a [Matrix::dgCMatrix-class] object
+#' @keywords internal
 make_csc_matrix <- function(x) UseMethod("make_csc_matrix")
 
 #' @method make_csc_matrix matrix
@@ -45,7 +46,7 @@ make_csc_matrix.simple_triplet_matrix <- function(x) {
 #'     plain matrix, simple triplet matrix, or compressed column
 #'     format, e.g. \link[Matrix]{dgCMatrix-class}. Can also be
 #'     \code{NULL}
-#' @param h the right hand size of the inequality constraint. Can be
+#' @param h the right hand side of the inequality constraint. Can be
 #'     empty numeric vector.
 #' @param dims is a list of three named elements: \code{dims['l']} an
 #'     integer specifying the dimension of positive orthant cone,
@@ -227,7 +228,7 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
             Apr <- A@x
             Air <- A@i
             Ajc <- A@p
-        } else if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
+        } else if (inherits(A, c("matrix", "simple_triplet_matrix"))) {
             csc <- make_csc_matrix(A)
             Apr <- csc[["values"]]
             Air <- csc[["matind"]]
@@ -272,11 +273,10 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
         if (!isNonnegativeInt(e))
             stop("dims['e'] should be a non-negative int")
     }
-    ## I am not performing this check for now...
     ## check that sum(q) + l + 3 * e = m
-    ## if ( (sum(q) + l + 3 * e) != m ) {
-    ##     stop("Number of rows of G does not match dims$l + sum(dims$q) + dims$e");
-    ## }
+    if ( (sum(q) + l + 3L * e) != mG ) {
+        stop("Number of rows of G does not match dims$l + sum(dims$q) + 3 * dims$e")
+    }
 
     bool_vars <- as.integer(bool_vars)
     if (( length(bool_vars) > 0L) && any(bool_vars < 1L | bool_vars > nC) ) {

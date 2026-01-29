@@ -18,3 +18,5 @@
 ^src/ecos/vstudio/*
 ^src/ecos.ts$
 ^\.github$
+^\.claude$
+^CLAUDE\.md$
