@@ -2,7 +2,7 @@ ECOS_DIR=ecos
 
 R_INCLUDES = $(shell $(R_HOME)/bin/Rscript -e 'cat("-I", R.home("include"), sep="")')
 
-PKG_CFLAGS=-DCTRLC=1 -DLDL_LONG -DDLONG $(R_INCLUDES) -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -I../SuiteSparse_config -I$(ECOS_DIR)/include -I$(ECOS_DIR)/external/SuiteSparse_config
+PKG_CFLAGS=-DCTRLC=1 -DLDL_LONG -DDLONG -DNPRINT $(R_INCLUDES) -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -I../SuiteSparse_config -I$(ECOS_DIR)/include -I$(ECOS_DIR)/external/SuiteSparse_config
 PKG_LIBS=-L$(ECOS_DIR) -lecos -lecos_bb
 
 $(SHLIB): ecosolve.o ecosolver_init.o
