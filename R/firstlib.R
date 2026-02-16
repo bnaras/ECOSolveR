@@ -77,56 +77,43 @@ isNontrivialIntegerVector <- function(x) {
 checkOptions <- function(control)  {
 
     ## Check options
-    if (!isNonnegativeInt(control$VERBOSE)) {
-        return("Expected non-negative integer for option VERBOSE")
-    }
+    if (!isNonnegativeInt(control$VERBOSE))
+        cli_abort("Expected non-negative integer for option {.field VERBOSE}.")
 
-    if (!isNonnegativeInt(control$MAXIT)) {
-        return("Expected non-negative integer for option MAXIT")
-    }
+    if (!isNonnegativeInt(control$MAXIT))
+        cli_abort("Expected non-negative integer for option {.field MAXIT}.")
 
-    if (!isNonnegativeFloat(control$FEASTOL)) {
-        return("Expected non-negative numeric for option FEASTOL")
-    }
+    if (!isNonnegativeFloat(control$FEASTOL))
+        cli_abort("Expected non-negative numeric for option {.field FEASTOL}.")
 
-    if (!isNonnegativeFloat(control$ABSTOL)) {
-        return("Expected non-negative numeric for option ABSTOL")
-    }
+    if (!isNonnegativeFloat(control$ABSTOL))
+        cli_abort("Expected non-negative numeric for option {.field ABSTOL}.")
 
-    if (!isNonnegativeFloat(control$RELTOL)) {
-        return("Expected non-negative numeric for option RELTOL")
-    }
+    if (!isNonnegativeFloat(control$RELTOL))
+        cli_abort("Expected non-negative numeric for option {.field RELTOL}.")
 
-    if (!isNonnegativeFloat(control$ABSTOL_INACC)) {
-        return("Expected non-negative numeric for option ABSTOL_INACC")
-    }
+    if (!isNonnegativeFloat(control$ABSTOL_INACC))
+        cli_abort("Expected non-negative numeric for option {.field ABSTOL_INACC}.")
 
-    if (!isNonnegativeFloat(control$FEASTOL_INACC)) {
-        return("Expected non-negative numeric for option FEASTOL_INACC")
-    }
+    if (!isNonnegativeFloat(control$FEASTOL_INACC))
+        cli_abort("Expected non-negative numeric for option {.field FEASTOL_INACC}.")
 
-    if (!isNonnegativeFloat(control$RELTOL_INACC)) {
-        return("Expected non-negative numeric for option RELTOL_INACC")
-    }
+    if (!isNonnegativeFloat(control$RELTOL_INACC))
+        cli_abort("Expected non-negative numeric for option {.field RELTOL_INACC}.")
 
-    if (!isNonnegativeInt(control$MI_MAX_ITERS)) {
-        return("Expected non-negative integer for option MI_MAX_ITERS")
-    }
+    if (!isNonnegativeInt(control$MI_MAX_ITERS))
+        cli_abort("Expected non-negative integer for option {.field MI_MAX_ITERS}.")
 
-    if (!isNonnegativeFloat(control$MI_ABS_EPS)) {
-        return("Expected non-negative numeric for option MI_ABS_EPS")
-    }
+    if (!isNonnegativeFloat(control$MI_ABS_EPS))
+        cli_abort("Expected non-negative numeric for option {.field MI_ABS_EPS}.")
 
-    if (!isNonnegativeFloat(control$MI_REL_EPS)) {
-        return("Expected non-negative numeric for option MI_REL_EPS")
-    }
+    if (!isNonnegativeFloat(control$MI_REL_EPS))
+        cli_abort("Expected non-negative numeric for option {.field MI_REL_EPS}.")
 
-    if (!isNonnegativeFloat(control$MI_INT_TOL)) {
-        return("Expected non-negative numeric for option MI_INT_TOL")
-    }
-    ## else return NULL
-    return(NULL)
+    if (!isNonnegativeFloat(control$MI_INT_TOL))
+        cli_abort("Expected non-negative numeric for option {.field MI_INT_TOL}.")
 
+    invisible(NULL)
 }
 
 

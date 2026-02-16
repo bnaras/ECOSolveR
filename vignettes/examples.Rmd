@@ -115,3 +115,42 @@ u <- z$x[(n+1):(2*n)]
 nnzx = sum(abs(x) > 1e-8)
 sprintf("x reconstructed with %d non-zero entries", nnzx / length(x) * 100)
 ```
+
+## Parametric Optimization with the Update-Solve Loop
+
+When solving a sequence of related problems that share the same
+sparsity structure but differ in numerical data, the multi-step
+lifecycle API avoids repeating the expensive symbolic analysis and
+KKT ordering phase.  The pattern is:
+
+1. `ECOS_setup()` — one-time setup (symbolic analysis)
+2. Loop: `ECOS_update()` + `ECOS_solve()` — cheap re-solves
+3. `ECOS_cleanup()` — free workspace
+
+Here we vary the right-hand side $h$ of the LP from the previous
+example, tracing how the optimal value changes as we scale $h$.
+
+```{r}
+## Set up workspace once
+ws <- ECOS_setup(c = c, G = G, h = h, dims = dims, A = Atilde, b = b)
+
+## Sweep a parameter: scale h from 0 to 1
+alphas <- seq(0, 1, length.out = 11)
+pcosts <- numeric(length(alphas))
+
+for (i in seq_along(alphas)) {
+    ECOS_update(ws, h = h + alphas[i])
+    res <- ECOS_solve(ws)
+    pcosts[i] <- res$summary[["pcost"]]
+}
+
+ECOS_cleanup(ws)
+
+## Show results
+data.frame(alpha = alphas, pcost = round(pcosts, 4))
+```
+
+For comparison, the same sweep using `ECOS_csolve()` in a loop
+would call `ECOS_setup` and `ECOS_cleanup` at every iteration.
+The lifecycle API is particularly beneficial when the problem
+dimensions are large and setup dominates solve time.
