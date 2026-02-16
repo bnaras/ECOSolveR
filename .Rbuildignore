@@ -21,3 +21,4 @@
 ^\.claude$
 ^CLAUDE\.md$
 ^src/Makevars\.webr$
+^revdep$
