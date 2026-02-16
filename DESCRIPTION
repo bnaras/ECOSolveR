@@ -17,6 +17,7 @@ SystemRequirements: GNU make
 URL: https://bnaras.github.io/ECOSolveR/
 BugReports: https://github.com/bnaras/ECOSolveR/issues
 Imports:
+    cli,
     methods
 Suggests:
     knitr,
