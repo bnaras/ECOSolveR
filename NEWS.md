@@ -1,3 +1,21 @@
+# ECOSolveR 0.6
+
+* Add multi-step solver lifecycle API: `ECOS_setup()`, `ECOS_solve()`,
+  `ECOS_update()`, and `ECOS_cleanup()` allow re-solving problems with
+  changed numerical data (same sparsity structure) without repeating
+  symbolic analysis. Workspace held in an external pointer with GC
+  finalizer; user data vectors are duplicated to prevent corruption from
+  ECOS in-place equilibration.
+
+* Switch R-level error messaging from `stop()` to `cli::cli_abort()` with
+  inline markup (`{.arg}`, `{.cls}`, `{.code}`, `{.field}`). The `cli`
+  package is now in `Imports`.
+
+* Add lifecycle tests (10 tests covering setup, solve, update, cleanup,
+  and helper functions).
+
+* Verify all 8 CRAN reverse dependencies pass with no new issues.
+
 # ECOSolveR 0.5-7
 
 * Switch ECOS submodule to fork (bnaras/ecos, `r-patches` branch);
