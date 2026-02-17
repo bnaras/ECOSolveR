@@ -18,3 +18,6 @@
 ^src/ecos/vstudio/*
 ^src/ecos.ts$
 ^\.github$
+^\.claude$
+^src/Makevars\.webr$
+^revdep$

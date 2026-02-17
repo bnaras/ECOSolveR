@@ -1,3 +1,49 @@
+# ECOSolveR 0.6
+
+* Add multi-step solver lifecycle API: `ECOS_setup()`, `ECOS_solve()`,
+  `ECOS_update()`, and `ECOS_cleanup()` allow re-solving problems with
+  changed numerical data (same sparsity structure) without repeating
+  symbolic analysis. Workspace held in an external pointer with GC
+  finalizer; user data vectors are duplicated to prevent corruption from
+  ECOS in-place equilibration.
+
+* Switch R-level error messaging from `stop()` to `cli::cli_abort()` with
+  inline markup (`{.arg}`, `{.cls}`, `{.code}`, `{.field}`). The `cli`
+  package is now in `Imports`.
+
+* Add lifecycle tests (10 tests covering setup, solve, update, cleanup,
+  and helper functions).
+
+* Verify all 8 CRAN reverse dependencies pass with no new issues.
+
+# ECOSolveR 0.5-7
+
+* Switch ECOS submodule to fork (bnaras/ecos, `r-patches` branch);
+  remove `ecos-2954b2a-changes/` overlay and simplify Makevars.
+
+* Fix copy-paste bug in `A` matrix validation (`inherits(G,...)` was
+  used instead of `inherits(A,...)`).
+
+* Enable dimension consistency check (`sum(q) + l + 3*e == nrow(G)`).
+
+* Signal an R error instead of returning silent `NULL` when
+  `ECOS_setup` or `ECOS_BB_setup` fails.
+
+* Fix `R_init` function name to match package name (`R_init_ECOSolveR`).
+
+* Narrow `import(methods)` to `importFrom(methods, as)`.
+
+* C solver fixes: wright omega Taylor series bug, NULL dereference
+  and memory leaks in ECOS_BB, integer truncation in pfloat rounding,
+  missing include guards, `printf` replaced with `Rprintf`.
+
+* Cherry-pick upstream NaN bail-out (PR #181) and `ECOS_updateData`
+  NULL-safety fix (PR #185) from ECOS develop branch.
+
+* Add unit tests for `ecos.control`, `make_csc_matrix`, dimension
+  validation, and plain-matrix `A` handling. Fix `test-bb.R` to
+  namespace-qualify `Matrix::sparseMatrix`.
+
 # ECOSolveR 0.5-6
 
 * Clean up matrix coercions

@@ -1,9 +1,8 @@
 ECOS_DIR=ecos
-ECOS_DIR_CHANGES=ecos-2954b2a-changes
 
 R_INCLUDES = -I$(R_HOME)/include
 
-PKG_CFLAGS=-DCTRLC=1 -DLDL_LONG -DDLONG $(R_INCLUDES) -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -I../SuiteSparse_config -I$(ECOS_DIR)/include -I$(ECOS_DIR)/external/SuiteSparse_config
+PKG_CFLAGS=-DCTRLC=1 -DLDL_LONG -DDLONG -DNPRINT $(R_INCLUDES) -Iinclude -Iexternal/ldl/include -Iexternal/amd/include -Iexternal/SuiteSparse_config -I../SuiteSparse_config -I$(ECOS_DIR)/include -I$(ECOS_DIR)/external/SuiteSparse_config
 PKG_LIBS=-L$(ECOS_DIR) -lecos -lecos_bb
 
 $(SHLIB): ecosolve.o ecosolver_init.o
@@ -12,10 +11,6 @@ ecosolve.o: ecos.ts
 ecosolver_init.o: ecos.ts
 
 ecos.ts:
-	cp -f $(ECOS_DIR_CHANGES)/include/* $(ECOS_DIR)/include
-	cp -f $(ECOS_DIR_CHANGES)/ecos_bb/* $(ECOS_DIR)/ecos_bb
-	cp -f $(ECOS_DIR_CHANGES)/Makefile $(ECOS_DIR)
-	cp -f $(ECOS_DIR_CHANGES)/ecos-win.mk $(ECOS_DIR)/ecos.mk
 	cd $(ECOS_DIR) && $(MAKE) libecos.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS) $(PKG_CFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"
 	cd $(ECOS_DIR) && $(MAKE) libecos_bb.a CC="$(CC)" CFLAGS="$(CFLAGS) $(CPICFLAGS) $(PKG_CFLAGS)" AR="$(AR)" RANLIB="$(RANLIB)"
 	touch $@

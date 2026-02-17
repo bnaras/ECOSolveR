@@ -1,12 +1,13 @@
 #' Convert a plain matrix or simple triplet form matrix to a [Matrix::dgCMatrix-class] (implicit) form
 #' @param x a matrix or a simple triplet form matrix
 #' @return a list of row pointer, column pointer, and values corresponding to a [Matrix::dgCMatrix-class] object
+#' @keywords internal
 make_csc_matrix <- function(x) UseMethod("make_csc_matrix")
 
 #' @method make_csc_matrix matrix
 make_csc_matrix.matrix <- function(x) {
     if( !is.matrix(x) )
-        stop("Argument 'x' must be a matrix.")
+        cli_abort("{.arg x} must be a matrix.")
 
     ind <- which(x != 0, arr.ind = TRUE)
     list(matbeg = c(0L, cumsum(tabulate(ind[, 2L], ncol(x)))),
@@ -17,7 +18,7 @@ make_csc_matrix.matrix <- function(x) {
 #' @method make_csc_matrix simple_triplet_matrix
 make_csc_matrix.simple_triplet_matrix <- function(x) {
     if(!inherits(x, "simple_triplet_matrix"))
-        stop("Argument 'x' must be of class 'simple_triplet_matrix'.")
+        cli_abort("{.arg x} must be of class {.cls simple_triplet_matrix}.")
 
     ## The matrix method assumes that indices for non-zero entries are
     ## in row-major order, but the simple_triplet_matrix() constructor
@@ -26,6 +27,120 @@ make_csc_matrix.simple_triplet_matrix <- function(x) {
     list(matbeg = c(0L, cumsum(tabulate(x$j[ind], x$ncol))),
          matind = x$i[ind] - 1L,
          values = x$v[ind])
+}
+
+## Validate and prepare problem data for ECOS C calls.
+## Returns a list with C-ready components:
+##   MNP (integer[3]), l, q, e, Gpr, Gjc, Gir, Apr, Ajc, Air, c, h, b
+.validate_and_prepare <- function(c, G, h, dims, A, b) {
+    dims <- lapply(dims, as.integer)
+
+    nullG <- (is.null(G) || prod(dim(G)) == 0L)
+    nontrivialH <- isNontrivialNumericVector(h)
+
+    if ((nullG && nontrivialH) ||
+        (!nullG && !nontrivialH)) {
+        cli_abort("{.arg G} and {.arg h} must be supplied together.")
+    }
+
+    nullA <- (is.null(A) || prod(dim(A)) == 0L)
+    nontrivialB <- isNontrivialNumericVector(b)
+    if ((nullA && nontrivialB) ||
+        (!nullA && !nontrivialB)) {
+        cli_abort("{.arg A} and {.arg b} must be supplied together.")
+    }
+
+    nC <- length(c)
+
+    if (nullG) {
+        Gpr <- h <- numeric(0)
+        Gir <- integer(0)
+        Gjc <- integer(nC + 1L)
+        mG <- 0L
+        nG <- nC
+    } else {
+        if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
+            csc <- make_csc_matrix(G)
+            Gpr <- csc[["values"]]
+            Gir <- csc[["matind"]]
+            Gjc <- csc[["matbeg"]]
+        } else if (inherits(G, "dgCMatrix")) {
+            Gpr <- G@x
+            Gir <- G@i
+            Gjc <- G@p
+        } else {
+            cli_abort("{.arg G} must be a {.cls dgCMatrix}, {.cls matrix}, or {.cls simple_triplet_matrix}.")
+        }
+        mG <- nrow(G)
+        nG <- ncol(G)
+        if (nG != nC) {
+            cli_abort("Number of columns of {.arg G} must match length of {.arg c}.")
+        }
+    }
+
+    if (nullA) {
+        Apr <- Air <- Ajc <- b <- NULL
+        mA <- nA <- 0L
+    } else {
+        if (inherits(A, "sparseMatrix")) {
+            if (!inherits(A, "dgCMatrix")) A  <- as(as(A, "CsparseMatrix"), "dgCMatrix")
+            Apr <- A@x
+            Air <- A@i
+            Ajc <- A@p
+        } else if (inherits(A, c("matrix", "simple_triplet_matrix"))) {
+            csc <- make_csc_matrix(A)
+            Apr <- csc[["values"]]
+            Air <- csc[["matind"]]
+            Ajc <- csc[["matbeg"]]
+        } else {
+            cli_abort("{.arg A} must be a {.cls dgCMatrix}, {.cls matrix}, or {.cls simple_triplet_matrix}.")
+        }
+        mA <- nrow(A)
+        nA <- ncol(A)
+        if (mA != length(b)) {
+            cli_abort("{.arg b} has incompatible dimension with {.arg A}.")
+        }
+        if (nA != nC) {
+            cli_abort("Number of columns of {.arg A} must match length of {.arg c}.")
+        }
+    }
+
+    ## Need to check dims as well
+    if (is.null(dims)) {
+        cli_abort("{.arg dims} must be a non-null list.")
+    }
+    ## dimensions of the positive orthant cone
+    l <- dims$l
+    if (is.null(l)) {
+        l <- 0L
+    } else {
+        if (!isNonnegativeInt(l))
+            cli_abort("{.code dims$l} must be a non-negative integer.")
+    }
+    ## dimensions of the second order cones
+    q <- dims$q
+    if (!is.null(q)) {
+        if (typeof(q) != "integer" || !all(q > 0L))
+            cli_abort("{.code dims$q} must be an integer vector of positive values.")
+    }
+    ## number of exponential cones
+    e <- dims$e
+    if (is.null(e)) {
+        e <- 0L
+    } else {
+        if (!isNonnegativeInt(e))
+            cli_abort("{.code dims$e} must be a non-negative integer.")
+    }
+    ## check that sum(q) + l + 3 * e = m
+    if ( (sum(q) + l + 3L * e) != mG ) {
+        cli_abort("Number of rows of {.arg G} does not match {.code dims$l + sum(dims$q) + 3 * dims$e}.")
+    }
+
+    list(MNP = c(mG, nC, mA),
+         l = l, q = q, e = e,
+         Gpr = Gpr, Gjc = Gjc, Gir = Gir,
+         Apr = Apr, Ajc = Ajc, Air = Air,
+         c = c, h = h, b = b)
 }
 
 #' Solve a conic optimization problem
@@ -45,7 +160,7 @@ make_csc_matrix.simple_triplet_matrix <- function(x) {
 #'     plain matrix, simple triplet matrix, or compressed column
 #'     format, e.g. \link[Matrix]{dgCMatrix-class}. Can also be
 #'     \code{NULL}
-#' @param h the right hand size of the inequality constraint. Can be
+#' @param h the right hand side of the inequality constraint. Can be
 #'     empty numeric vector.
 #' @param dims is a list of three named elements: \code{dims['l']} an
 #'     integer specifying the dimension of positive orthant cone,
@@ -161,6 +276,7 @@ make_csc_matrix.simple_triplet_matrix <- function(x) {
 #'   retval$infostring
 #'   retval$summary
 #' }
+#' @importFrom cli cli_abort
 #' @importFrom methods as
 #'
 #' @export
@@ -170,136 +286,164 @@ ECOS_csolve <- function(c = numeric(0), G = NULL, h=numeric(0),
                          bool_vars = integer(0), int_vars = integer(0),
                          control = ecos.control() ) {
 
-    if (!is.null(optionCheck <- checkOptions(control))) {
-        stop(optionCheck)
-    }
-    dims <- lapply(dims, as.integer)
-
-    nullG <- (is.null(G) || prod(dim(G)) == 0L)
-    nontrivialH <- isNontrivialNumericVector(h)
-
-    if ((nullG && nontrivialH) ||
-        (!nullG && !nontrivialH)) {
-        stop("G and h must be supplied together")
-    }
-
-    nullA <- (is.null(A) || prod(dim(A)) == 0L)
-    nontrivialB <- isNontrivialNumericVector(b)
-    if ((nullA && nontrivialB) ||
-        (!nullA && !nontrivialB)) {
-        stop("A and b must be supplied together")
-    }
-
+    checkOptions(control)
+    prep <- .validate_and_prepare(c, G, h, dims, A, b)
     nC <- length(c)
-
-    if (nullG) {
-        Gpr <- h <- numeric(0)
-        Gir <- integer(0)
-        Gjc <- integer(nC + 1L)
-        mG <- 0L
-        nG <- nC
-    } else {
-        if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
-            csc <- make_csc_matrix(G)
-            Gpr <- csc[["values"]]
-            Gir <- csc[["matind"]]
-            Gjc <- csc[["matbeg"]]
-        } else if (inherits(G, "dgCMatrix")) {
-            Gpr <- G@x
-            Gir <- G@i
-            Gjc <- G@p
-        } else {
-            stop("G is required to be of class dgCMatrix/matrix/simple_triplet_matrix")
-        }
-        mG <- nrow(G)
-        nG <- ncol(G)
-        if (nG != nC) {
-            stop("Column length of G and length of c should match")
-        }
-    }
-
-    if (nullA) {
-        Apr <- Air <- Ajc <- b <- NULL
-        mA <- nA <- 0L
-    } else {
-        if (inherits(A, "sparseMatrix")) {
-            if (!inherits(A, "dgCMatrix")) A  <- as(as(A, "CsparseMatrix"), "dgCMatrix")
-            Apr <- A@x
-            Air <- A@i
-            Ajc <- A@p
-        } else if (inherits(G, c("matrix", "simple_triplet_matrix"))) {
-            csc <- make_csc_matrix(A)
-            Apr <- csc[["values"]]
-            Air <- csc[["matind"]]
-            Ajc <- csc[["matbeg"]]
-        } else {
-            stop("A is required to be of class dgCMatrix or matrix or simple_triplet_matrix")
-        }
-        mA <- nrow(A)
-        nA <- ncol(A)
-        if (mA != length(b)) {
-            stop("b has incompatible dimension with A")
-        }
-        if (nA != nC) {
-            stop("Column length of A and length of c should match")
-        }
-    }
-
-
-    ## Need to check dims as well
-    if (is.null(dims)) {
-        stop("dims must be a non-null list")
-    }
-    ## dimensions of the positive orthant cone
-    l <- dims$l
-    if (is.null(l)) {
-        l <- 0L
-    } else {
-        if (!isNonnegativeInt(l))
-            stop("dims['l'] should be a non-negative int")
-    }
-    ## dimensions of the second order cones
-    q <- dims$q
-    if (!is.null(q)) {
-        if (typeof(q) != "integer" || !all(q > 0L))
-            stop("dims['q'] should be an integer vector of positive integers")
-    }
-    ## number of exponential cones
-    e <- dims$e
-    if (is.null(e)) {
-        e <- 0L
-    } else {
-        if (!isNonnegativeInt(e))
-            stop("dims['e'] should be a non-negative int")
-    }
-    ## I am not performing this check for now...
-    ## check that sum(q) + l + 3 * e = m
-    ## if ( (sum(q) + l + 3 * e) != m ) {
-    ##     stop("Number of rows of G does not match dims$l + sum(dims$q) + dims$e");
-    ## }
 
     bool_vars <- as.integer(bool_vars)
     if (( length(bool_vars) > 0L) && any(bool_vars < 1L | bool_vars > nC) ) {
-        stop(sprintf("bool_vars must be integers between 1 and %d", nC))
+        cli_abort("{.arg bool_vars} must be integers between 1 and {nC}.")
     } else {
         bool_vars <- sort.int(bool_vars - 1L)
     }
 
     int_vars <- as.integer(int_vars)
     if (( length(int_vars) > 0L) && any(int_vars < 1L | int_vars > nC) ) {
-        stop(sprintf("int_vars must be integers between 1 and %d", nC))
+        cli_abort("{.arg int_vars} must be integers between 1 and {nC}.")
     } else {
         int_vars <- sort.int(int_vars - 1L)
     }
 
     result <- .Call('ecos_csolve',
-                    c(mG, nC, mA),
-                    l, q, e,
-                    Gpr, Gjc, Gir,
-                    Apr, Ajc, Air,
-                    c, h, b,
+                    prep$MNP,
+                    prep$l, prep$q, prep$e,
+                    prep$Gpr, prep$Gjc, prep$Gir,
+                    prep$Apr, prep$Ajc, prep$Air,
+                    prep$c, prep$h, prep$b,
                     bool_vars, int_vars,
                     control,
                     PACKAGE = 'ECOSolveR')
     result
+}
+
+## ------------------------------------------------------------------ ##
+## Multi-step lifecycle: ECOS_setup / ECOS_solve / ECOS_update /      ##
+## ECOS_cleanup                                                       ##
+## ------------------------------------------------------------------ ##
+
+#' Set up an ECOS workspace for multi-step solving
+#'
+#' Creates an ECOS workspace that can be solved, updated with new
+#' numerical data, and solved again without repeating the expensive
+#' symbolic analysis phase. This is useful for parametric optimization,
+#' model predictive control, and other settings where the problem
+#' structure stays the same but data changes.
+#'
+#' @inheritParams ECOS_csolve
+#' @return an external pointer of class \code{"ecos_workspace"}.
+#'   Must eventually be freed via \code{\link{ECOS_cleanup}} or R
+#'   garbage collection.
+#'
+#' @seealso \code{\link{ECOS_solve}}, \code{\link{ECOS_update}},
+#'   \code{\link{ECOS_cleanup}}, \code{\link{ECOS_csolve}}
+#' @export
+ECOS_setup <- function(c, G, h,
+                       dims = list(l = integer(0), q = NULL, e = integer(0)),
+                       A = NULL, b = numeric(0),
+                       control = ecos.control()) {
+    checkOptions(control)
+    prep <- .validate_and_prepare(c, G, h, dims, A, b)
+    nC <- length(c)
+    ## Ensure valid empty CSC arrays when A is absent.
+    ## ECOS_updateData's equilibration check dereferences w->A
+    ## unconditionally, so we need w->A to be a valid spmat (not NULL).
+    if (is.null(prep$Apr)) {
+        prep$Apr <- numeric(0)
+        prep$Ajc <- integer(nC + 1L)
+        prep$Air <- integer(0)
+        prep$b <- numeric(0)
+    }
+    .Call('ecos_setup_R',
+          prep$MNP,
+          prep$l, prep$q, prep$e,
+          prep$Gpr, prep$Gjc, prep$Gir,
+          prep$Apr, prep$Ajc, prep$Air,
+          prep$c, prep$h, prep$b,
+          control,
+          PACKAGE = 'ECOSolveR')
+}
+
+#' Solve an ECOS workspace
+#'
+#' Calls \code{ECOS_solve} on an existing workspace created by
+#' \code{\link{ECOS_setup}}. The workspace can be solved multiple
+#' times, optionally with \code{\link{ECOS_update}} calls in between
+#' to change numerical data.
+#'
+#' @param workspace an external pointer of class \code{"ecos_workspace"}
+#'   as returned by \code{\link{ECOS_setup}}.
+#' @param control optional named list of solver parameters (see
+#'   \code{\link{ecos.control}}). If \code{NULL} (the default), the
+#'   settings from \code{\link{ECOS_setup}} (or the most recent
+#'   \code{ECOS_solve} call with non-NULL control) are reused.
+#' @return the same result list as \code{\link{ECOS_csolve}}.
+#'
+#' @seealso \code{\link{ECOS_setup}}, \code{\link{ECOS_update}},
+#'   \code{\link{ECOS_cleanup}}
+#' @export
+ECOS_solve <- function(workspace, control = NULL) {
+    if (!inherits(workspace, "ecos_workspace"))
+        cli_abort("{.arg workspace} must be an {.cls ecos_workspace} object.")
+    if (!is.null(control)) checkOptions(control)
+    .Call('ecos_solve_R', workspace, control, PACKAGE = 'ECOSolveR')
+}
+
+#' Update numerical data in an ECOS workspace
+#'
+#' Replaces numerical values in an existing ECOS workspace without
+#' repeating symbolic analysis. The sparsity structure must remain
+#' the same; only the non-zero values of G and A, and the dense
+#' vectors c, h, b can be updated. Pass \code{NULL} for any argument
+#' to leave it unchanged.
+#'
+#' @param workspace an external pointer of class \code{"ecos_workspace"}
+#'   as returned by \code{\link{ECOS_setup}}.
+#' @param Gpr numeric vector of new non-zero values for G (same length
+#'   as original), or \code{NULL} to keep current values.
+#' @param Apr numeric vector of new non-zero values for A (same length
+#'   as original), or \code{NULL} to keep current values.
+#' @param c numeric vector of new objective coefficients, or \code{NULL}.
+#' @param h numeric vector of new inequality RHS, or \code{NULL}.
+#' @param b numeric vector of new equality RHS, or \code{NULL}.
+#' @return the \code{workspace} object, invisibly.
+#'
+#' @seealso \code{\link{ECOS_setup}}, \code{\link{ECOS_solve}},
+#'   \code{\link{ECOS_cleanup}}
+#' @export
+ECOS_update <- function(workspace, Gpr = NULL, Apr = NULL,
+                        c = NULL, h = NULL, b = NULL) {
+    if (!inherits(workspace, "ecos_workspace"))
+        cli_abort("{.arg workspace} must be an {.cls ecos_workspace} object.")
+    .Call('ecos_update_R', workspace, Gpr, Apr, c, h, b,
+          PACKAGE = 'ECOSolveR')
+    invisible(workspace)
+}
+
+#' Clean up an ECOS workspace
+#'
+#' Frees the C-level ECOS workspace. After this call the workspace
+#' external pointer is invalidated and cannot be used for further
+#' solves or updates. It is safe to call this more than once.
+#'
+#' @param workspace an external pointer of class \code{"ecos_workspace"}
+#'   as returned by \code{\link{ECOS_setup}}.
+#' @return \code{NULL}, invisibly.
+#'
+#' @seealso \code{\link{ECOS_setup}}, \code{\link{ECOS_solve}},
+#'   \code{\link{ECOS_update}}
+#' @export
+ECOS_cleanup <- function(workspace) {
+    .Call('ecos_cleanup_R', workspace, PACKAGE = 'ECOSolveR')
+    invisible(NULL)
+}
+
+#' Print method for ECOS workspace objects
+#'
+#' @param x an \code{"ecos_workspace"} external pointer.
+#' @param ... ignored.
+#' @return \code{x}, invisibly.
+#' @export
+print.ecos_workspace <- function(x, ...) {
+    cat("<ecos_workspace>\n")
+    invisible(x)
 }

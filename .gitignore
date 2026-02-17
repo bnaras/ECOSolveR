@@ -7,3 +7,5 @@ autom4te.cache
 src/ecos.ts
 src/ecos/__*
 docs
+.claude
+CLAUDE.md
