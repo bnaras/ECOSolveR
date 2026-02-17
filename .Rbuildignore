@@ -19,6 +19,5 @@
 ^src/ecos.ts$
 ^\.github$
 ^\.claude$
-^CLAUDE\.md$
 ^src/Makevars\.webr$
 ^revdep$
