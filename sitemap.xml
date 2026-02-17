@@ -1,39 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/404.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/articles/examples.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/authors.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/index.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/news/index.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_csolve.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_exitcodes.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/reference/ECOSolveR-package.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/reference/ecos.control.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>http://bnaras.github.io/ECOSolveR/reference/make_csc_matrix.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://bnaras.github.io/ECOSolveR/404.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/articles/examples.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/articles/index.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/authors.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/index.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/news/index.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_cleanup.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_csolve.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_exitcodes.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_setup.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_solve.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/ECOS_update.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/ECOSolveR-package.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/ecos.control.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/index.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/make_csc_matrix.html</loc></url>
+<url><loc>http://bnaras.github.io/ECOSolveR/reference/print.ecos_workspace.html</loc></url>
 </urlset>
+

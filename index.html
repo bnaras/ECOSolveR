@@ -19,7 +19,7 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ECOSolveR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6</span>
       </span>
     </div>
 
@@ -45,7 +45,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -62,7 +62,7 @@
 <li>
   <a href="https://github.com/bnaras/ECOSolveR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -73,7 +73,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
@@ -83,14 +83,22 @@
 <p><a href="https://github.com/bnaras/ECOSolveR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/bnaras/ECOSolveR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cran.r-project.org/package=ECOSolveR" class="external-link"><img src="https://www.r-pkg.org/badges/version/ECOSolveR" alt="CRAN_Status_Badge"></a> <a href="https://app.codecov.io/github/bnaras/ECOSolveR?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/bnaras/ECOSolveR/master.svg" alt="Coverage Status"></a> <a href="https://CRAN.R-project.org/package=ECOSolveR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/ECOSolveR"></a></p>
 <p>Embedded Conic Solver in R. This is an R wrapper around the <a href="https://github.com/embotech/ecos" class="external-link">ecos</a> project on GitHub which describes ECOS as below.</p>
 <p>ECOS is a numerical software for solving convex second-order cone programs (SOCPs) of type</p>
-<p><span class="math display">Minimize <em>c</em>′<em>x</em> such that <strong>A</strong><em>x</em> = <strong>b</strong> and <strong>G</strong><strong>x</strong>  ≤<sub><strong>K</strong></sub>  <strong>h</strong></span> where the last inequality is generalized, that is, <span class="math inline"><strong>h</strong> − <strong>G</strong><strong>x</strong></span> belongs to the cone <span class="math inline"><strong>K</strong></span>.</p>
-<p>ECOS supports the positive orthant <span class="math inline"><strong>R</strong><sub>+</sub></span>, second-order cones <span class="math inline"><strong>Q</strong><sub><em>n</em></sub></span> defined as</p>
-<p><span class="math display"><strong>Q</strong><sub><em>n</em></sub> = {(<em>t</em>,<strong>x</strong>)|<em>t</em> &gt;  = ∥<strong>x</strong>∥<sub>2</sub>}</span></p>
-<p>with <span class="math inline"><em>t</em></span> a scalar and <span class="math inline"><strong>x</strong> ∈ <strong>R</strong><sub><em>n</em> − 1</sub></span>, and the exponential cone <span class="math inline"><strong>K</strong><sub><em>e</em></sub></span> defined as</p>
-<p><span class="math display"><strong>K</strong><sub><em>e</em></sub> = closure{(<em>x</em>,<em>y</em>,<em>z</em>)|<em>e</em><em>x</em><em>p</em>(<em>x</em>/<em>z</em>) &lt;  = <em>y</em>/<em>z</em>, <em>z</em> &gt; 0},</span></p>
-<p>where <span class="math inline">(<em>x</em>,<em>y</em>,<em>z</em>) ∈ <strong>R</strong><sup>3</sup></span>.</p>
-<p>The cone <span class="math inline"><strong>K</strong></span> is therefore a direct product of the positive orthant, second-order, and exponential cones:</p>
-<p><span class="math display"><strong>K</strong> = <strong>R</strong><sub>+</sub> × <strong>Q</strong><sub><em>n</em><sub>1</sub></sub> × ⋯ × <strong>Q</strong><sub><em>n</em><sub><em>N</em></sub></sub> × <strong>K</strong><sub><em>e</em></sub> × ⋯ × <strong>K</strong><sub><em>e</em></sub>.</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mtext mathvariant="normal">Minimize </mtext><mspace width="0.333em"></mspace></mrow><mi>c</mi><mi>′</mi><mi>x</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> such that </mtext><mspace width="0.333em"></mspace></mrow><mrow><mi>𝐀</mi><mi>x</mi></mrow><mo>=</mo><mi>𝐛</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> and </mtext><mspace width="0.333em"></mspace></mrow><mrow><mi>𝐆</mi><mi>𝐱</mi></mrow><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><msub><mo>≤</mo><mi>𝐊</mi></msub><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mi>𝐡</mi></mrow><annotation encoding="application/x-tex">
+\mbox{Minimize } c'x \mbox{ such that } {\mathbf Ax} = {\mathbf b} \mbox{ and } {\mathbf G \mathbf x}\,\, \leq_{\mathbf K}\,\, {\mathbf h}
+</annotation></semantics></math> where the last inequality is generalized, that is, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐡</mi><mo>−</mo><mrow><mi>𝐆</mi><mi>𝐱</mi></mrow></mrow><annotation encoding="application/x-tex">{\mathbf h}-\mathbf{Gx}</annotation></semantics></math> belongs to the cone <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐊</mi><annotation encoding="application/x-tex">{\mathbf K}</annotation></semantics></math>.</p>
+<p>ECOS supports the positive orthant <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐑</mi><mo>+</mo></msub><annotation encoding="application/x-tex">{\mathbf R}_+</annotation></semantics></math>, second-order cones <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐐</mi><mi>n</mi></msub><annotation encoding="application/x-tex">{\mathbf Q}_n</annotation></semantics></math> defined as</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐐</mi><mi>n</mi></msub><mo>=</mo><mo minsize="1.2" maxsize="1.2" stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>𝐱</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="prefix">|</mo><mi>t</mi><mo>&gt;</mo><mo>=</mo><mo stretchy="false" form="prefix">∥</mo><mi>𝐱</mi><msub><mo stretchy="false" form="postfix">∥</mo><mn>2</mn></msub><mo minsize="1.2" maxsize="1.2" stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">
+{\mathbf Q}_n = \bigl\{ (t,{\mathbf x}) | t &gt;= \lVert{\mathbf x}\rVert_2 \bigr\}
+</annotation></semantics></math></p>
+<p>with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math> a scalar and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐱</mi><mo>∈</mo><msub><mi>𝐑</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">{\mathbf x} \in {\mathbf R}_{n-1}</annotation></semantics></math>, and the exponential cone <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐊</mi><mi>e</mi></msub><annotation encoding="application/x-tex">{\mathbf K}_e</annotation></semantics></math> defined as</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐊</mi><mi>e</mi></msub><mo>=</mo><mtext mathvariant="normal">closure</mtext><mo minsize="1.2" maxsize="1.2" stretchy="false" form="prefix">{</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="prefix">|</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>z</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>&lt;</mo><mo>=</mo><mi>y</mi><mi>/</mi><mi>z</mi><mo>,</mo><mi>z</mi><mo>&gt;</mo><mn>0</mn><mo minsize="1.2" maxsize="1.2" stretchy="false" form="postfix">}</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">
+\mathbf{K}_e = \mbox{closure} \bigl\{ (x,y,z) | exp(x/z) &lt;= y/z, z&gt;0 \bigr\},
+</annotation></semantics></math></p>
+<p>where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∈</mo><msup><mi>𝐑</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">(x,y,z) \in {\mathbf R}^3</annotation></semantics></math>.</p>
+<p>The cone <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐊</mi><annotation encoding="application/x-tex">{\mathbf K}</annotation></semantics></math> is therefore a direct product of the positive orthant, second-order, and exponential cones:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐊</mi><mo>=</mo><msub><mi>𝐑</mi><mo>+</mo></msub><mo>×</mo><msub><mi>𝐐</mi><msub><mi>n</mi><mn>1</mn></msub></msub><mo>×</mo><mi>⋯</mi><mo>×</mo><msub><mi>𝐐</mi><msub><mi>n</mi><mi>N</mi></msub></msub><mo>×</mo><msub><mi>𝐊</mi><mi>e</mi></msub><mo>×</mo><mi>⋯</mi><mo>×</mo><msub><mi>𝐊</mi><mi>e</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+{\mathbf K} = {\mathbf R}_+ \times {\mathbf Q}_{n_1} \times \cdots \times {\mathbf Q}_{n_N} \times {\mathbf K}_e \times \cdots \times {\mathbf K}_e.
+</annotation></semantics></math></p>
 <div class="section level2">
 <h2 id="further-details">Further Details<a class="anchor" aria-label="anchor" href="#further-details"></a>
 </h2>
@@ -128,9 +136,9 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://anqif.github.io/" class="external-link">Anqi Fu</a> <br><small class="roles"> Author </small>  </li>
+<a href="https://anqif.github.io/" class="external-link">Anqi Fu</a> <br><small class="roles"> Author </small>   </li>
 <li>
-<a href="https:naras.su.domains">Balasubramanian Narasimhan</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<a href="https:naras.su.domains">Balasubramanian Narasimhan</a> <br><small class="roles"> Author, maintainer </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -148,16 +156,16 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>
