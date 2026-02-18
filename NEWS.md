@@ -1,4 +1,8 @@
-# ECOSolveR 0.6
+# ECOSolveR 0.6.1
+
+* Fix UBSan error (misaligned pointer from `REAL()` on zero-length
+  vector) in `build_result()` when no equality constraints are present
+  (`p = 0`). Reported by CRAN M1 SAN checks.
 
 * Add multi-step solver lifecycle API: `ECOS_setup()`, `ECOS_solve()`,
   `ECOS_update()`, and `ECOS_cleanup()` allow re-solving problems with
@@ -13,8 +17,6 @@
 
 * Add lifecycle tests (10 tests covering setup, solve, update, cleanup,
   and helper functions).
-
-* Verify all 8 CRAN reverse dependencies pass with no new issues.
 
 # ECOSolveR 0.5-7
 
