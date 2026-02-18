@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ECOSolveR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.1</span>
       </span>
     </div>
 
@@ -58,11 +58,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.6" id="ecosolver-06">ECOSolveR 0.6<a class="anchor" aria-label="anchor" href="#ecosolver-06"></a></h2>
-<ul><li><p>Add multi-step solver lifecycle API: <code><a href="../reference/ECOS_setup.html">ECOS_setup()</a></code>, <code><a href="../reference/ECOS_solve.html">ECOS_solve()</a></code>, <code><a href="../reference/ECOS_update.html">ECOS_update()</a></code>, and <code><a href="../reference/ECOS_cleanup.html">ECOS_cleanup()</a></code> allow re-solving problems with changed numerical data (same sparsity structure) without repeating symbolic analysis. Workspace held in an external pointer with GC finalizer; user data vectors are duplicated to prevent corruption from ECOS in-place equilibration.</p></li>
+<h2 class="page-header" data-toc-text="0.6.1" id="ecosolver-061">ECOSolveR 0.6.1<small>2026-02-18</small><a class="anchor" aria-label="anchor" href="#ecosolver-061"></a></h2>
+<ul><li><p>Fix UBSan error (misaligned pointer from <code>REAL()</code> on zero-length vector) in <code>build_result()</code> when no equality constraints are present (<code>p = 0</code>). Reported by CRAN M1 SAN checks.</p></li>
+<li><p>Add multi-step solver lifecycle API: <code><a href="../reference/ECOS_setup.html">ECOS_setup()</a></code>, <code><a href="../reference/ECOS_solve.html">ECOS_solve()</a></code>, <code><a href="../reference/ECOS_update.html">ECOS_update()</a></code>, and <code><a href="../reference/ECOS_cleanup.html">ECOS_cleanup()</a></code> allow re-solving problems with changed numerical data (same sparsity structure) without repeating symbolic analysis. Workspace held in an external pointer with GC finalizer; user data vectors are duplicated to prevent corruption from ECOS in-place equilibration.</p></li>
 <li><p>Switch R-level error messaging from <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> to <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code> with inline markup (<code>{.arg}</code>, <code>{.cls}</code>, <code>{.code}</code>, <code>{.field}</code>). The <code>cli</code> package is now in <code>Imports</code>.</p></li>
 <li><p>Add lifecycle tests (10 tests covering setup, solve, update, cleanup, and helper functions).</p></li>
-<li><p>Verify all 8 CRAN reverse dependencies pass with no new issues.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.5-7" id="ecosolver-05-7">ECOSolveR 0.5-7<a class="anchor" aria-label="anchor" href="#ecosolver-05-7"></a></h2>
