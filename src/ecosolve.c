@@ -97,26 +97,29 @@ static SEXP build_result(pwork *mywork, idxint exitcode,
   int i, nProtected = 0, numerr;
   idxint n = mywork->n, m = mywork->m, p = mywork->p;
 
-  /* create output (all data is *deep copied*) */
+  /* create output (all data is *deep copied*)
+   * Guard: REAL() on a zero-length REALSXP may return a misaligned
+   * sentinel pointer (e.g. 0x1); passing that to memcpy is UB even
+   * when nbytes == 0.  Skip the copy when the dimension is zero. */
   SEXP x;
   PROTECT(x = allocVector(REALSXP, n));
   nProtected++;
-  memcpy(REAL(x), mywork->x, n * sizeof(double));
+  if (n > 0) memcpy(REAL(x), mywork->x, n * sizeof(double));
 
   SEXP y;
   PROTECT(y = allocVector(REALSXP, p));
   nProtected++;
-  memcpy(REAL(y), mywork->y, p * sizeof(double));
+  if (p > 0) memcpy(REAL(y), mywork->y, p * sizeof(double));
 
   SEXP s;
   PROTECT(s = allocVector(REALSXP, m));
   nProtected++;
-  memcpy(REAL(s), mywork->s, m * sizeof(double));
+  if (m > 0) memcpy(REAL(s), mywork->s, m * sizeof(double));
 
   SEXP z;
   PROTECT(z = allocVector(REALSXP, m));
   nProtected++;
-  memcpy(REAL(z), mywork->z, m * sizeof(double));
+  if (m > 0) memcpy(REAL(z), mywork->z, m * sizeof(double));
 
   /* Infostring based on return code */
   if (is_bb) {
