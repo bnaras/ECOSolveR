@@ -8,7 +8,7 @@
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ECOSolveR)](https://cran.r-project.org/package=ECOSolveR)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/bnaras/ECOSolveR/master.svg)](https://app.codecov.io/github/bnaras/ECOSolveR?branch=master)
-[![](https://cranlogs.r-pkg.org/badges/ECOSolveR)](https://CRAN.R-project.org/package=ECOSolveR)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/ECOSolveR)](https://CRAN.R-project.org/package=ECOSolveR)
 
 Embedded Conic Solver in R. This is an R wrapper around the
 [ecos](https://github.com/embotech/ecos) project on GitHub which

@@ -1,10 +1,10 @@
-url: http://bnaras.github.io/ECOSolveR/
+url: https://bnaras.github.io/ECOSolveR/
 template:
-  params:
-    bootswatch: flatly
+  bootstrap: 5
+  bootswatch: flatly
 authors:
   Anqi Fu:
     href: https://anqif.github.io/
   Balasubramanian Narasimhan:
-    href: https:naras.su.domains
+    href: https://naras.su.domains
 
