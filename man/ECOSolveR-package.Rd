@@ -25,6 +25,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Balasubramanian Narasimhan \email{naras@stat.Stanford.EDU}
   \item Anqi Fu \email{anqi.fu.1987@gmail.com}
 }
 

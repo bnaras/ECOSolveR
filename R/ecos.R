@@ -5,6 +5,7 @@
 make_csc_matrix <- function(x) UseMethod("make_csc_matrix")
 
 #' @method make_csc_matrix matrix
+#' @export
 make_csc_matrix.matrix <- function(x) {
     if( !is.matrix(x) )
         cli_abort("{.arg x} must be a matrix.")
@@ -16,6 +17,7 @@ make_csc_matrix.matrix <- function(x) {
 }
 
 #' @method make_csc_matrix simple_triplet_matrix
+#' @export
 make_csc_matrix.simple_triplet_matrix <- function(x) {
     if(!inherits(x, "simple_triplet_matrix"))
         cli_abort("{.arg x} must be of class {.cls simple_triplet_matrix}.")
