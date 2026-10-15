@@ -1,9 +1,9 @@
-pandoc: 3.1.11
-pkgdown: 2.2.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   examples: examples.html
-last_built: 2026-02-18T21:21Z
+last_built: 2026-10-15T23:24Z
 urls:
   reference: http://bnaras.github.io/ECOSolveR/reference
   article: http://bnaras.github.io/ECOSolveR/articles
