@@ -1,3 +1,9 @@
+# ECOSolveR 0.6.2
+
+* Fix wrong mixed-integer solutions from `ECOS_csolve()` with boolean
+  variables on platforms where `char` is unsigned (Linux aarch64).
+  Reported by the r-devel linux-arm64 checks.
+
 # ECOSolveR 0.6.1
 
 * Fix UBSan error (misaligned pointer from `REAL()` on zero-length
