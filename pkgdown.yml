@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   examples: examples.html
-last_built: 2026-10-15T23:24Z
+last_built: 2026-10-15T23:46Z
 urls:
-  reference: http://bnaras.github.io/ECOSolveR/reference
-  article: http://bnaras.github.io/ECOSolveR/articles
+  reference: https://bnaras.github.io/ECOSolveR/reference
+  article: https://bnaras.github.io/ECOSolveR/articles

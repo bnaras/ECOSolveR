@@ -1,0 +1,150 @@
+# Changelog
+
+## ECOSolveR 0.6.2
+
+- Fix wrong mixed-integer solutions from
+  [`ECOS_csolve()`](https://bnaras.github.io/ECOSolveR/reference/ECOS_csolve.md)
+  with boolean variables on platforms where `char` is unsigned (Linux
+  aarch64). Reported by the r-devel linux-arm64 checks.
+
+## ECOSolveR 0.6.1
+
+CRAN release: 2026-02-18
+
+- Fix UBSan error (misaligned pointer from `REAL()` on zero-length
+  vector) in `build_result()` when no equality constraints are present
+  (`p = 0`). Reported by CRAN M1 SAN checks.
+
+- Add multi-step solver lifecycle API:
+  [`ECOS_setup()`](https://bnaras.github.io/ECOSolveR/reference/ECOS_setup.md),
+  [`ECOS_solve()`](https://bnaras.github.io/ECOSolveR/reference/ECOS_solve.md),
+  [`ECOS_update()`](https://bnaras.github.io/ECOSolveR/reference/ECOS_update.md),
+  and
+  [`ECOS_cleanup()`](https://bnaras.github.io/ECOSolveR/reference/ECOS_cleanup.md)
+  allow re-solving problems with changed numerical data (same sparsity
+  structure) without repeating symbolic analysis. Workspace held in an
+  external pointer with GC finalizer; user data vectors are duplicated
+  to prevent corruption from ECOS in-place equilibration.
+
+- Switch R-level error messaging from
+  [`stop()`](https://rdrr.io/r/base/stop.html) to
+  [`cli::cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html)
+  with inline markup (`{.arg}`, `{.cls}`, `{.code}`, `{.field}`). The
+  `cli` package is now in `Imports`.
+
+- Add lifecycle tests (10 tests covering setup, solve, update, cleanup,
+  and helper functions).
+
+## ECOSolveR 0.5-7
+
+- Switch ECOS submodule to fork (bnaras/ecos, `r-patches` branch);
+  remove `ecos-2954b2a-changes/` overlay and simplify Makevars.
+
+- Fix copy-paste bug in `A` matrix validation (`inherits(G,...)` was
+  used instead of `inherits(A,...)`).
+
+- Enable dimension consistency check (`sum(q) + l + 3*e == nrow(G)`).
+
+- Signal an R error instead of returning silent `NULL` when `ECOS_setup`
+  or `ECOS_BB_setup` fails.
+
+- Fix `R_init` function name to match package name (`R_init_ECOSolveR`).
+
+- Narrow `import(methods)` to `importFrom(methods, as)`.
+
+- C solver fixes: wright omega Taylor series bug, NULL dereference and
+  memory leaks in ECOS_BB, integer truncation in pfloat rounding,
+  missing include guards, `printf` replaced with `Rprintf`.
+
+- Cherry-pick upstream NaN bail-out (PR
+  [\#181](https://github.com/bnaras/ECOSolveR/issues/181)) and
+  `ECOS_updateData` NULL-safety fix (PR
+  [\#185](https://github.com/bnaras/ECOSolveR/issues/185)) from ECOS
+  develop branch.
+
+- Add unit tests for `ecos.control`, `make_csc_matrix`, dimension
+  validation, and plain-matrix `A` handling. Fix `test-bb.R` to
+  namespace-qualify
+  [`Matrix::sparseMatrix`](https://rdrr.io/pkg/Matrix/man/sparseMatrix.html).
+
+## ECOSolveR 0.5-6
+
+- Clean up matrix coercions
+
+## ECOSolveR 0.5-5
+
+- Fix CRAN issues re: prototypes.
+
+## ECOSolveR 0.5-4
+
+- Address the issue caused by Matrix 1.3.x: Force coercion to
+  “dgCMatrix” if not so. Make corresponding change in vignette.
+
+## ECOSolveR 0.5-3
+
+- Fix some awful cut-and-paste error in `R/ecos.R`
+- Address edge case for ECOS_BB when `G` is `NULL`.
+
+## ECOSolveR 0.5-2
+
+- Fix compilation issue on Ubuntu by modifying `Makevars` and
+  `Makevars.win` to use `Rscript` call to
+  [`R.home()`](https://rdrr.io/r/base/Rhome.html) to figure out include
+  path. ([Issue 5](https://github.com/bnaras/ECOSolveR/issues/5))
+
+## ECOSolveR 0.5-1
+
+- ECOS source fix for header `glblopts.h` that defined `ECOS_NAN` using
+  portable R version `R_NaN` and `R_PosInf`. This caused the convolution
+  example in `CVXR` package to fail on 32-bit platforms.
+
+- Added a convolution test to be specific.
+
+## ECOSolveR 0.5
+
+CRAN release: 2019-03-20
+
+- ECOS update: Synced underlying library to version 2.0.7.
+
+- Removed import of `Matrix` package, added `slam` interface,
+  contributions from Florian Schwendinger.
+
+- Tests: Added a number of unit tests based on base C library.
+
+## ECOSolveR 0.4
+
+CRAN release: 2018-02-18
+
+- `ECOS_csolve` assumes `A` and `G` as `NULL` if any dimension is 0
+- The dims list is now coerced to integer immediately upon entry to
+  `ECOS_csolve`
+- ECOS library sources updated to version 2.0.5.
+
+## ECOSolveR 0.3-\[1-3\]
+
+CRAN release: 2017-05-16
+
+- Updated Readme
+- Allowed empty vector `c`, per Anqi’s request
+
+## ECOSolveR 0.3
+
+CRAN release: 2017-05-16
+
+- Registered `.Call` entries
+- Changed Anqi’s email
+
+## ECOSolveR 0.2
+
+CRAN release: 2015-11-27
+
+- Added system requirement of GNU makefile
+- Improved the description of the package
+- Checked more carefully on Linux, MacOS, and Windows
+
+## ECOSolveR 0.1-1
+
+CRAN release: 2015-11-25
+
+- First version, thought I had it right for all platforms, but quite
+  wrong.
