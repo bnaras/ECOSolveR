@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Embedded Conic Solver in R • ECOSolveR</title>
-<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="katex-auto.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -58,22 +59,23 @@
 <p><a href="https://github.com/bnaras/ECOSolveR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/bnaras/ECOSolveR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://cran.r-project.org/package=ECOSolveR" class="external-link"><img src="https://www.r-pkg.org/badges/version/ECOSolveR" alt="CRAN_Status_Badge"></a> <a href="https://app.codecov.io/github/bnaras/ECOSolveR?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/bnaras/ECOSolveR/master.svg" alt="Coverage Status"></a> <a href="https://CRAN.R-project.org/package=ECOSolveR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/ECOSolveR" alt="CRAN downloads"></a></p>
 <p>Embedded Conic Solver in R. This is an R wrapper around the <a href="https://github.com/embotech/ecos" class="external-link">ecos</a> project on GitHub which describes ECOS as below.</p>
 <p>ECOS is a numerical software for solving convex second-order cone programs (SOCPs) of type</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mtext mathvariant="normal">Minimize </mtext><mspace width="0.333em"></mspace></mrow><msup><mi>c</mi><mo>′</mo></msup><mi>x</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> such that </mtext><mspace width="0.333em"></mspace></mrow><mrow><mi>𝐀</mi><mi>x</mi></mrow><mo>=</mo><mi>𝐛</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> and </mtext><mspace width="0.333em"></mspace></mrow><mrow><mi>𝐆</mi><mi>𝐱</mi></mrow><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><msub><mo>≤</mo><mi>𝐊</mi></msub><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mi>𝐡</mi></mrow><annotation encoding="application/x-tex">
-\mbox{Minimize } c'x \mbox{ such that } {\mathbf Ax} = {\mathbf b} \mbox{ and } {\mathbf G \mathbf x}\,\, \leq_{\mathbf K}\,\, {\mathbf h}
-</annotation></semantics></math> where the last inequality is generalized, that is, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐡</mi><mo>−</mo><mrow><mi>𝐆</mi><mi>𝐱</mi></mrow></mrow><annotation encoding="application/x-tex">{\mathbf h}-\mathbf{Gx}</annotation></semantics></math> belongs to the cone <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐊</mi><annotation encoding="application/x-tex">{\mathbf K}</annotation></semantics></math>.</p>
-<p>ECOS supports the positive orthant <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐑</mi><mo>+</mo></msub><annotation encoding="application/x-tex">{\mathbf R}_+</annotation></semantics></math>, second-order cones <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐐</mi><mi>n</mi></msub><annotation encoding="application/x-tex">{\mathbf Q}_n</annotation></semantics></math> defined as</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐐</mi><mi>n</mi></msub><mo>=</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>𝐱</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mi>t</mi><mo>&gt;</mo><mo>=</mo><msub><mrow><mo stretchy="true" form="prefix">‖</mo><mi>𝐱</mi><mo stretchy="true" form="postfix">‖</mo></mrow><mn>2</mn></msub><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">
-{\mathbf Q}_n = \bigl\{ (t,{\mathbf x}) | t &gt;= \lVert{\mathbf x}\rVert_2 \bigr\}
-</annotation></semantics></math></p>
-<p>with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math> a scalar and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐱</mi><mo>∈</mo><msub><mi>𝐑</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">{\mathbf x} \in {\mathbf R}_{n-1}</annotation></semantics></math>, and the exponential cone <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐊</mi><mi>e</mi></msub><annotation encoding="application/x-tex">{\mathbf K}_e</annotation></semantics></math> defined as</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐊</mi><mi>e</mi></msub><mo>=</mo><mtext mathvariant="normal">closure</mtext><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">{</mo><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mi>/</mi><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><mo>=</mo><mi>y</mi><mi>/</mi><mi>z</mi><mo>,</mo><mi>z</mi><mo>&gt;</mo><mn>0</mn><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">}</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">
-\mathbf{K}_e = \mbox{closure} \bigl\{ (x,y,z) | exp(x/z) &lt;= y/z, z&gt;0 \bigr\},
-</annotation></semantics></math></p>
-<p>where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo>∈</mo><msup><mi>𝐑</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">(x,y,z) \in {\mathbf R}^3</annotation></semantics></math>.</p>
-<p>The cone <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐊</mi><annotation encoding="application/x-tex">{\mathbf K}</annotation></semantics></math> is therefore a direct product of the positive orthant, second-order, and exponential cones:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐊</mi><mo>=</mo><msub><mi>𝐑</mi><mo>+</mo></msub><mo>×</mo><msub><mi>𝐐</mi><msub><mi>n</mi><mn>1</mn></msub></msub><mo>×</mo><mi>⋯</mi><mo>×</mo><msub><mi>𝐐</mi><msub><mi>n</mi><mi>N</mi></msub></msub><mo>×</mo><msub><mi>𝐊</mi><mi>e</mi></msub><mo>×</mo><mi>⋯</mi><mo>×</mo><msub><mi>𝐊</mi><mi>e</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
-{\mathbf K} = {\mathbf R}_+ \times {\mathbf Q}_{n_1} \times \cdots \times {\mathbf Q}_{n_N} \times {\mathbf K}_e \times \cdots \times {\mathbf K}_e.
-</annotation></semantics></math></p>
+<p><span class="math display">
+\text{Minimize } \mathbf{c}^\top\mathbf{x} \text{ such that } \mathbf{A}\mathbf{x} = \mathbf{b} \text{ and } \mathbf{G}\mathbf{x} \leq_{\mathbf{K}} \mathbf{h}
+</span></p>
+<p>where the last inequality is generalized, that is, <span class="math inline">\mathbf{h} - \mathbf{G}\mathbf{x}</span> belongs to the cone <span class="math inline">\mathbf{K}</span>.</p>
+<p>ECOS supports the positive orthant <span class="math inline">\mathbf{R}_+</span>, second-order cones <span class="math inline">\mathbf{Q}_n</span> defined as</p>
+<p><span class="math display">
+\mathbf{Q}_n = \bigl\lbrace (t, \mathbf{x}) \mid t \geq \lVert \mathbf{x} \rVert_2 \bigr\rbrace
+</span></p>
+<p>with <span class="math inline">t</span> a scalar and <span class="math inline">\mathbf{x} \in \mathbf{R}^{n-1}</span>, and the exponential cone <span class="math inline">\mathbf{K}_e</span> defined as</p>
+<p><span class="math display">
+\mathbf{K}_e = \text{closure} \bigl\lbrace (x, y, z) \mid \exp(x/z) \leq y/z,\ z &gt; 0 \bigr\rbrace,
+</span></p>
+<p>where <span class="math inline">(x, y, z) \in \mathbf{R}^3</span>.</p>
+<p>The cone <span class="math inline">\mathbf{K}</span> is therefore a direct product of the positive orthant, second-order, and exponential cones:</p>
+<p><span class="math display">
+\mathbf{K} = \mathbf{R}_+ \times \mathbf{Q}_{n_1} \times \cdots \times \mathbf{Q}_{n_N} \times \mathbf{K}_e \times \cdots \times \mathbf{K}_e.
+</span></p>
 <div class="section level2">
 <h2 id="further-details">Further Details<a class="anchor" aria-label="anchor" href="#further-details"></a>
 </h2>

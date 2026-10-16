@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>ECOSolveR Examples • ECOSolveR</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="../katex-auto.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -58,7 +59,7 @@
 
       <h1>ECOSolveR Examples</h1>
             
-            <h4 data-toc-skip class="date">2026-10-15</h4>
+            <h4 data-toc-skip class="date">2026-10-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bnaras/ECOSolveR/blob/master/vignettes/examples.Rmd" class="external-link"><code>vignettes/examples.Rmd</code></a></small>
       <div class="d-none name"><code>examples.Rmd</code></div>
@@ -67,41 +68,37 @@
     
     
 <div class="section level2">
-<h2 id="l_1-minimization-linear-programming">
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>L</mi><mn>1</mn></msub><annotation encoding="application/x-tex">L_1</annotation></semantics></math>
-minimization (Linear Programming)<a class="anchor" aria-label="anchor" href="#l_1-minimization-linear-programming"></a>
+<h2 id="l1-minimization-linear-programming">L1 minimization (Linear Programming)<a class="anchor" aria-label="anchor" href="#l1-minimization-linear-programming"></a>
 </h2>
 <p>We solve the following problem that arises for example in sparse
-signal reconstruction problems such as compressed sensing: <span class="math display">$$
-\mbox{minimize } ||x||_1  \mbox{   ($L_1$)   }\\
-\mbox{subject to } Ax = b
-$$</span></p>
-<p>with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>∈</mo><msup><mi>R</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">x\in R^n</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∈</mo><msup><mi>R</mi><mrow><mi>m</mi><mo>×</mo><mi>n</mi></mrow></msup></mrow><annotation encoding="application/x-tex">A \in R^{m \times n}</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>≤</mo><mi>n</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">m\leq n.</annotation></semantics></math>
-Reformulate the problem expressing the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>L</mi><mn>1</mn></msub><annotation encoding="application/x-tex">L_1</annotation></semantics></math>
-norm of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
-as follows <span class="math display">$$
-x \leq u\\
--x \leq u\\
-$$</span></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>∈</mo><msup><mi>R</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">u\in R^n</annotation></semantics></math>
-and we minimize the sum of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>.
-The reformulated problem using the stacked variables</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>x</mi></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>u</mi></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+signal reconstruction problems such as compressed sensing: <span class="math display">
+\begin{array}{ll}
+\text{minimize}   &amp; \|x\|_1 \\
+\text{subject to} &amp; Ax = b
+\end{array}
+\qquad (L_1)
+</span></p>
+<p>with <span class="math inline">x\in R^n</span>, <span class="math inline">A \in R^{m \times n}</span> and <span class="math inline">m\leq n.</span> Reformulate the problem expressing
+the <span class="math inline">L_1</span> norm of <span class="math inline">x</span> as follows <span class="math display">
+\begin{aligned}
+x &amp;\leq u \\
+-x &amp;\leq u
+\end{aligned}
+</span></p>
+<p>where <span class="math inline">u\in R^n</span> and we minimize the
+sum of <span class="math inline">u</span>. The reformulated problem
+using the stacked variables</p>
+<p><span class="math display">
 z = \begin{pmatrix}x\\u\end{pmatrix}
-</annotation></semantics></math></p>
-<p>is now <span class="math display">$$
-\mbox{minimize } c^{\top}z\\
-\mbox{subject to } \tilde{A}x = b  \mbox{   (LP)  }\\
-     Gx \leq h
-$$</span> where the inequality is with respective to the positive
+</span></p>
+<p>is now <span class="math display">
+\begin{array}{ll}
+\text{minimize}   &amp; c^{\top}z \\
+\text{subject to} &amp; \tilde{A}z = b \\
+                  &amp; Gz \leq h
+\end{array}
+\qquad \text{(LP)}
+</span> where the inequality is with respective to the positive
 orthant.</p>
 <p>Here is the R code that generates a random instance of this problem
 and solves it.</p>
@@ -167,11 +164,9 @@ re-solves</li>
 <li>
 <code><a href="../reference/ECOS_cleanup.html">ECOS_cleanup()</a></code> — free workspace</li>
 </ol>
-<p>Here we vary the right-hand side
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>
+<p>Here we vary the right-hand side <span class="math inline">h</span>
 of the LP from the previous example, tracing how the optimal value
-changes as we scale
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>.</p>
+changes as we scale <span class="math inline">h</span>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Set up workspace once</span></span>
 <span><span class="va">ws</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ECOS_setup.html">ECOS_setup</a></span><span class="op">(</span>c <span class="op">=</span> <span class="va">c</span>, G <span class="op">=</span> <span class="va">G</span>, h <span class="op">=</span> <span class="va">h</span>, dims <span class="op">=</span> <span class="va">dims</span>, A <span class="op">=</span> <span class="va">Atilde</span>, b <span class="op">=</span> <span class="va">b</span><span class="op">)</span></span>

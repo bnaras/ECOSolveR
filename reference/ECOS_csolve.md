@@ -246,8 +246,8 @@ ECOS_csolve(c = c, G = Gmat, h = h,
 #>  1.000000e-08 
 #> 
 #> $timing
-#>     runtime      tsetup      tsolve 
-#> 0.000129975 0.000025588 0.000104387 
+#>    runtime     tsetup     tsolve 
+#> 4.9375e-05 2.0411e-05 2.8964e-05 
 #> 
 
 cat("Simple Triplet Matrix interface, if you have package slam\n")
@@ -291,7 +291,7 @@ if (requireNamespace("slam")) {
 #> 
 #> $timing
 #>    runtime     tsetup     tsolve 
-#> 4.3044e-05 1.6815e-05 2.6229e-05 
+#> 4.3114e-05 1.5573e-05 2.7541e-05 
 #> 
 
 if (requireNamespace("Matrix")) {
@@ -332,7 +332,7 @@ if (requireNamespace("Matrix")) {
 #> 
 #> $timing
 #>    runtime     tsetup     tsolve 
-#> 5.7027e-05 2.9064e-05 2.7963e-05 
+#> 5.7087e-05 2.6751e-05 3.0336e-05 
 #> 
 
 ## Larger problems using saved data can be found in the test suite.
@@ -364,7 +364,7 @@ if (requireNamespace("Matrix")) {
 #>  8  -2.112e+02  -2.112e+02  +1e-06  2e-12  7e-13  2e-11  6e-10  0.9890  1e-04   2  1  2 |  0  0
 #> 
 #> OPTIMAL (within feastol=2.4e-12, reltol=5.3e-09, abstol=1.1e-06).
-#> Runtime: 0.127031 seconds.
+#> Runtime: 0.178950 seconds.
 #> 
 #>         pcost         dcost          pres          dres          pinf 
 #> -2.112370e+02 -2.112370e+02  2.387958e-12  7.134616e-13  0.000000e+00 

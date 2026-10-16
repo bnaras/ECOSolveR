@@ -14,34 +14,33 @@ describes ECOS as below.
 ECOS is a numerical software for solving convex second-order cone
 programs (SOCPs) of type
 
-``` math
-\mbox{Minimize } c'x \mbox{ such that } {\mathbf Ax} = {\mathbf b} \mbox{ and } {\mathbf G \mathbf x}\,\, \leq_{\mathbf K}\,\, {\mathbf h}
-```
-where the last inequality is generalized, that is,
-$`{\mathbf h}-\mathbf{Gx}`$ belongs to the cone $`{\mathbf K}`$.
+\text{Minimize } \mathbf{c}^\top\mathbf{x} \text{ such that }
+\mathbf{A}\mathbf{x} = \mathbf{b} \text{ and } \mathbf{G}\mathbf{x}
+\leq\_{\mathbf{K}} \mathbf{h}
 
-ECOS supports the positive orthant $`{\mathbf R}_+`$, second-order cones
-$`{\mathbf Q}_n`$ defined as
+where the last inequality is generalized, that is, \mathbf{h} -
+\mathbf{G}\mathbf{x} belongs to the cone \mathbf{K}.
 
-``` math
-{\mathbf Q}_n = \bigl\{ (t,{\mathbf x}) | t >= \lVert{\mathbf x}\rVert_2 \bigr\}
-```
+ECOS supports the positive orthant \mathbf{R}\_+, second-order cones
+\mathbf{Q}\_n defined as
 
-with $`t`$ a scalar and $`{\mathbf x} \in {\mathbf R}_{n-1}`$, and the
-exponential cone $`{\mathbf K}_e`$ defined as
+\mathbf{Q}\_n = \bigl\lbrace (t, \mathbf{x}) \mid t \geq \lVert
+\mathbf{x} \rVert_2 \bigr\rbrace
 
-``` math
-\mathbf{K}_e = \mbox{closure} \bigl\{ (x,y,z) | exp(x/z) <= y/z, z>0 \bigr\},
-```
+with t a scalar and \mathbf{x} \in \mathbf{R}^{n-1}, and the exponential
+cone \mathbf{K}\_e defined as
 
-where $`(x,y,z) \in {\mathbf R}^3`$.
+\mathbf{K}\_e = \text{closure} \bigl\lbrace (x, y, z) \mid \exp(x/z)
+\leq y/z,\\ z \> 0 \bigr\rbrace,
 
-The cone $`{\mathbf K}`$ is therefore a direct product of the positive
+where (x, y, z) \in \mathbf{R}^3.
+
+The cone \mathbf{K} is therefore a direct product of the positive
 orthant, second-order, and exponential cones:
 
-``` math
-{\mathbf K} = {\mathbf R}_+ \times {\mathbf Q}_{n_1} \times \cdots \times {\mathbf Q}_{n_N} \times {\mathbf K}_e \times \cdots \times {\mathbf K}_e.
-```
+\mathbf{K} = \mathbf{R}\_+ \times \mathbf{Q}\_{n_1} \times \cdots \times
+\mathbf{Q}\_{n_N} \times \mathbf{K}\_e \times \cdots \times
+\mathbf{K}\_e.
 
 ## Further Details
 

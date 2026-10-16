@@ -1,25 +1,24 @@
 # ECOSolveR Examples
 
-## $`L_1`$ minimization (Linear Programming)
+## L1 minimization (Linear Programming)
 
 We solve the following problem that arises for example in sparse signal
-reconstruction problems such as compressed sensing: \$\$ \mbox{minimize
-} \|\|x\|\|\_1 \mbox{ (\$L_1\$) }\\ \mbox{subject to } Ax = b \$\$
+reconstruction problems such as compressed sensing: \begin{array}{ll}
+\text{minimize} & \\x\\\_1 \\ \text{subject to} & Ax = b \end{array}
+\qquad (L_1)
 
-with $`x\in R^n`$, $`A \in R^{m \times n}`$ and $`m\leq n.`$ Reformulate
-the problem expressing the $`L_1`$ norm of $`x`$ as follows \$\$ x \leq
-u\\ -x \leq u\\ \$\$
+with x\in R^n, A \in R^{m \times n} and m\leq n. Reformulate the problem
+expressing the L_1 norm of x as follows \begin{aligned} x &\leq u \\ -x
+&\leq u \end{aligned}
 
-where $`u\in R^n`$ and we minimize the sum of $`u`$. The reformulated
-problem using the stacked variables
+where u\in R^n and we minimize the sum of u. The reformulated problem
+using the stacked variables
 
-``` math
 z = \begin{pmatrix}x\\u\end{pmatrix}
-```
 
-is now \$\$ \mbox{minimize } c^{\top}z\\ \mbox{subject to } \tilde{A}x =
-b \mbox{ (LP) }\\ Gx \leq h \$\$ where the inequality is with respective
-to the positive orthant.
+is now \begin{array}{ll} \text{minimize} & c^{\top}z \\ \text{subject
+to} & \tilde{A}z = b \\ & Gz \leq h \end{array} \qquad \text{(LP)} where
+the inequality is with respective to the positive orthant.
 
 Here is the R code that generates a random instance of this problem and
 solves it.
@@ -114,8 +113,8 @@ The pattern is:
 3.  [`ECOS_cleanup()`](https://bnaras.github.io/ECOSolveR/reference/ECOS_cleanup.md)
     — free workspace
 
-Here we vary the right-hand side $`h`$ of the LP from the previous
-example, tracing how the optimal value changes as we scale $`h`$.
+Here we vary the right-hand side h of the LP from the previous example,
+tracing how the optimal value changes as we scale h.
 
 ``` r
 
