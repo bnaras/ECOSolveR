@@ -25,20 +25,25 @@ knitr::opts_chunk$set(
 )
 
 ```
-## $L_1$ minimization (Linear Programming)
+## L1 minimization (Linear Programming)
 
 We solve the following problem that arises for example in sparse
 signal reconstruction problems such as compressed sensing:
 $$
-\mbox{minimize } ||x||_1  \mbox{   ($L_1$)   }\\
-\mbox{subject to } Ax = b
+\begin{array}{ll}
+\text{minimize}   & \|x\|_1 \\
+\text{subject to} & Ax = b
+\end{array}
+\qquad (L_1)
 $$
 
 with $x\in R^n$, $A \in R^{m \times n}$ and $m\leq n.$ Reformulate the
 problem expressing the $L_1$ norm of $x$ as follows
 $$
-x \leq u\\
--x \leq u\\
+\begin{aligned}
+x &\leq u \\
+-x &\leq u
+\end{aligned}
 $$
 
 where $u\in R^n$ and we minimize the sum of $u$. The reformulated
@@ -50,9 +55,12 @@ $$
 
 is now
 $$
-\mbox{minimize } c^{\top}z\\
-\mbox{subject to } \tilde{A}x = b  \mbox{   (LP)  }\\
-     Gx \leq h
+\begin{array}{ll}
+\text{minimize}   & c^{\top}z \\
+\text{subject to} & \tilde{A}z = b \\
+                  & Gz \leq h
+\end{array}
+\qquad \text{(LP)}
 $$
 where the inequality is with respective to the positive orthant.
 

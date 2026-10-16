@@ -2,6 +2,7 @@ url: https://bnaras.github.io/ECOSolveR/
 template:
   bootstrap: 5
   bootswatch: flatly
+  math-rendering: katex
 authors:
   Anqi Fu:
     href: https://anqif.github.io/
